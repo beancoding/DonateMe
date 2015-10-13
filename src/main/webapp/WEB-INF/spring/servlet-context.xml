@@ -23,6 +23,6 @@
 	
 	<context:component-scan base-package="com.dmcliver.donateme" />
 	
-	
+	<context:annotation-config/>
 	
 </beans:beans>
