@@ -1,1 +1,1 @@
-# DonateMe!
+# DonateMe$
