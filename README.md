@@ -1,4 +1,3 @@
-# DonateMe_
-This is the same
-This is not?
-End file
+# DonateMe
+
+Is a peer to peer donation website?
