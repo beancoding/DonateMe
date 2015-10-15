@@ -37,7 +37,10 @@ public class HomeController {
 		
 		String formattedDate = dateFormat.format(date);
 		
-		List<String> names = productCategoryDAO.getAll().stream().map(pc -> pc.getProductCategoryName()).collect(toList());
+		List<String> names = productCategoryDAO.getTopLevelCategories()
+											   .stream()
+											   .map(pc -> pc.getProductCategoryName())
+											   .collect(toList());
 		
 		model.addAttribute("names", names);
 		model.addAttribute("serverTime", formattedDate );

@@ -6,5 +6,5 @@ import com.dmcliver.donateme.domain.ProductCategory;
 
 public interface ProductCategoryDAO {
 
-	List<ProductCategory> getAll();
+	List<ProductCategory> getTopLevelCategories();
 }

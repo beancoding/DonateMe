@@ -13,6 +13,13 @@ import javax.persistence.Table;
 @Table(name = "ProductCategory")
 public class ProductCategory {
 
+	public ProductCategory(UUID id, String name){
+		productCategoryId = id;
+		productCategoryName = name;
+	}
+
+	protected ProductCategory(){}
+	
 	private UUID productCategoryId;
 	private String productCategoryName;
 	private ProductCategory parentProductCategory;

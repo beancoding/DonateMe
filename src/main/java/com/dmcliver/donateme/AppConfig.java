@@ -34,7 +34,7 @@ public class AppConfig {
 	public Properties properties() {
 
 		Properties props = new Properties();
-		props.setProperty("hibernate.hbm2ddl.auto", "create");
+		//props.setProperty("hibernate.hbm2ddl.auto", "create");
 		props.setProperty("hibernate.show_sql", "true");
 		return props;
 	}
