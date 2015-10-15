@@ -23,8 +23,8 @@ public class HomeController {
 	private ProductCategoryDAO productCategoryDAO;
 
 	@Autowired
-	public HomeController(ProductCategoryDAO productCategory){
-		this.productCategoryDAO = productCategory;
+	public HomeController(ProductCategoryDAO productCategoryDAO){
+		this.productCategoryDAO = productCategoryDAO;
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
