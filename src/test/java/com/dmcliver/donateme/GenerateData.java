@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dmcliver.donateme.domain.ProductCategory;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(defaultRollback = false)
+@TransactionConfiguration(defaultRollback = true)
 @ContextConfiguration("classpath:/servlet-context.xml")
 public class GenerateData {
 
