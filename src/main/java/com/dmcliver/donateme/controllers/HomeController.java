@@ -23,7 +23,7 @@ public class HomeController {
 	private ProductCategoryDAO productCategoryDAO;
 
 	@Autowired
-	public HomeController(ProductCategoryDAO productCategoryDAO){
+	public HomeController(ProductCategoryDAO productCategoryDAO) {
 		this.productCategoryDAO = productCategoryDAO;
 	}
 	
