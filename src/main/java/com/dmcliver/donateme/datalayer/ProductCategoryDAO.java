@@ -7,4 +7,6 @@ import com.dmcliver.donateme.domain.ProductCategory;
 public interface ProductCategoryDAO {
 
 	List<ProductCategory> getTopLevelCategories();
+
+	public abstract List<Object[]> getTopLevelCount();
 }

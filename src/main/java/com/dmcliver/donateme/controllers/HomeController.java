@@ -1,11 +1,13 @@
 package com.dmcliver.donateme.controllers;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class HomeController {
 		this.productCategoryDAO = productCategoryDAO;
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = GET)
 	public String home(Locale locale, Model model) {
 
 		logger.info("Welcome home! The client locale is {}.", locale);

@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      >
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	template="template.xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+>
+
+	<ui:define name="header">Home</ui:define>
  
-    <h:body>
- 
+    <ui:define name="content">
+
     	<h1>TODO: Turn categories into tree component</h1>
- 
- 	#{homeControllerBean.message}
  		
-    </h:body>
+    	<h:outputText value="#{homeControllerBean.message}"></h:outputText>
+    
+    	<h:form>
+	    	<p:tree value="#{homeControllerBean.categories}" var="node" dynamic="true">
+		    <p:ajax event="expand" update="@this" listener="#{homeControllerBean.onTreeExpand}" />    
+		    <p:treeNode>
+		            <h:outputText value="#{node}" />
+		        </p:treeNode>
+	    	</p:tree>
+    	</h:form>
+    	
+    </ui:define>
  
-</html>
+</ui:composition>
