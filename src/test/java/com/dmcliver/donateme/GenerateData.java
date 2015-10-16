@@ -1,6 +1,6 @@
 package com.dmcliver.donateme;
 
-import java.util.UUID;
+import static java.util.UUID.randomUUID;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,10 +28,10 @@ public class GenerateData {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		ProductCategory grandParent = new ProductCategory(UUID.randomUUID(), "GrandParent");
-		ProductCategory child = new ProductCategory(UUID.randomUUID(), "Child");
+		ProductCategory grandParent = new ProductCategory(randomUUID(), "GrandParent");
+		ProductCategory child = new ProductCategory(randomUUID(), "Child");
 		child.setParentProductCategory(grandParent);
-		ProductCategory grandChild = new ProductCategory(UUID.randomUUID(), "GrandChild");
+		ProductCategory grandChild = new ProductCategory(randomUUID(), "GrandChild");
 		grandChild.setParentProductCategory(child);
 		
 		session.save(grandParent);
