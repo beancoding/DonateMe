@@ -11,10 +11,8 @@
  
     <ui:define name="content">
 
-    	<h1>TODO: Turn categories into tree component</h1>
+    	<h1>Welcome</h1>
  		
-    	<h:outputText value="#{homeControllerBean.message}"></h:outputText>
-    
     	<h:form>
 	    	<p:tree value="#{homeControllerBean.categories}" var="node" dynamic="true">
 		    <p:ajax event="expand" update="@this" listener="#{homeControllerBean.onTreeExpand}" />    

@@ -37,27 +37,22 @@ public class HomeControllerBean {
 		topLevelCategories.forEach(c -> buildNode(topLevel, c));
 	}
 
-	private boolean buildNode(List<TreeNode> topLevel, ProductCategory c) {
+	private void buildNode(List<TreeNode> topLevel, ProductCategory c) {
 		
 		TreeNode node = new DefaultTreeNode(c.getProductCategoryName(), root);
-		node.getChildren().add(new DefaultTreeNode("", node));
-		return topLevel.add(node);
+		node.getChildren().add(new DefaultTreeNode(-1, node));
+		topLevel.add(node);
 	}
 	
 	public void onTreeExpand(NodeExpandEvent event){
 		
 		List<TreeNode> children = event.getTreeNode().getChildren();
 		
-		if(children.size() > 0)
+		if(children.size() == 1 && new Integer(-1).equals(children.get(0).getData()))
 			children.removeIf(t -> true);
 		
-		children.add(new DefaultTreeNode("OK"));
-	}
-	
-	public String getMessage() {
-
-		ProductCategory productCategory = prodCatDAO.getTopLevelCategories().get(0);
-		return "1st product category: " + productCategory.getProductCategoryName();
+		children.add(new DefaultTreeNode("Music"));
+		children.add(new DefaultTreeNode("Video"));
 	}
 	
 	public TreeNode getCategories(){
