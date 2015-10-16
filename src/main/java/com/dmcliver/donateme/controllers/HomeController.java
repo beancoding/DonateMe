@@ -1,9 +1,9 @@
 package com.dmcliver.donateme.controllers;
 
-import static java.util.stream.Collectors.toList;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.text.DateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 
 @Controller
@@ -39,10 +37,8 @@ public class HomeController {
 		
 		String formattedDate = dateFormat.format(date);
 		
-		List<String> names = productCategoryDAO.getTopLevelCategories()
-											   .stream()
-											   .map(pc -> pc.getProductCategoryName())
-											   .collect(toList());
+		productCategoryDAO.getTopLevelInfo();
+		List<String> names = Arrays.asList("");
 		
 		model.addAttribute("names", names);
 		model.addAttribute("serverTime", formattedDate );

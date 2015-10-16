@@ -14,6 +14,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
+import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(defaultRollback = true)
@@ -27,13 +28,12 @@ public class ProductCategoryDAOTest {
 	@Transactional
 	public void getTopLevelCount_ReturnsProperCount(){
 		
-		List<Object[]> topLevelCount = prodCatDAO.getTopLevelCount();
+		List<ProductCategoryAggregate> topLevelCount = prodCatDAO.getTopLevelInfo();
 		
-		Object[] data = topLevelCount.get(0);
+		ProductCategoryAggregate data = topLevelCount.get(0);
 		
 		assertThat(topLevelCount.size(), is(1));
-		assertThat(data.length, is(3));
-		assertThat(data[1], is("GrandParent"));
-		assertThat(data[2], is(1L));
+		assertThat(data.getProductCategoryName(), is("GrandParent"));
+		assertThat(data.getChildCount(), is(1L));
 	}
 }
