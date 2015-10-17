@@ -65,8 +65,19 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		return map(result);
 	}
 	
+	/**
+	 * HQL:
+	 * select pc.productCategoryId, pc.productCategoryName, count(productCategoryId)
+	 * from ProductCategory
+	 * right outer join ProductCategory.parentProductCagory pc 
+	 * group by pc.productCategoryId, pc.productCategoryName
+	 * 
+	 * SQL:
+	 * Is exactly the same except for the right outer join which is shown below 
+	 * right outer join ProductCategory pc on pc.ProductCategoryId = ProductCategory.parentProductCategoryId
+	 */
 	private Criteria buildQuery(Session session){
-		
+
 	   return session.createCriteria(ProductCategory.class)
 				     .createAlias("parentProductCategory", "pc", RIGHT_OUTER_JOIN)
 				     .setProjection(

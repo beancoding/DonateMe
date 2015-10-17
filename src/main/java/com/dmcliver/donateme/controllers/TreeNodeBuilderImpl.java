@@ -17,7 +17,7 @@ public class TreeNodeBuilderImpl implements TreeNodeBuilder{
 	private ProductCategoryDAO prodCatDAO;
 
 	@Autowired
-	public TreeNodeBuilderImpl(ProductCategoryDAO prodCatDAO){
+	public TreeNodeBuilderImpl(ProductCategoryDAO prodCatDAO) {
 		this.prodCatDAO = prodCatDAO;
 	}
 	
@@ -27,21 +27,21 @@ public class TreeNodeBuilderImpl implements TreeNodeBuilder{
 	}
 	
 	@Override
-	public void buildChildren(List<TreeNode> children, TreeModel prodCat) {
+	public void buildChildren(List<TreeNode> children, TreeModel model) {
 		
 		if(children.size() == 1 && new Integer(-1).equals(children.get(0).getData()))
 			children.removeIf(t -> true);
 		
-		prodCatDAO.getChildCategories(prodCat.getProductCategoryId())
+		prodCatDAO.getChildCategories(model.getProductCategoryId())
 			      .forEach(pc -> buildNode(children, pc));
 	}
 	
 	@Override
-	public void buildNode(List<TreeNode> topLevel, ProductCategoryAggregate c) {
+	public void buildNode(List<TreeNode> topLevel, ProductCategoryAggregate prodCat) {
 		
-		TreeNode node = new DefaultTreeNode(new TreeModel(c.getProductCategoryName(), c.getProductCategoryId()));
+		DefaultTreeNode node = new DefaultTreeNode(new TreeModel(prodCat.getProductCategoryName(), prodCat.getProductCategoryId()));
 		
-		if(c.getChildCount() > 0)
+		if(prodCat.getChildCount() > 0)
 			node.getChildren().add(new DefaultTreeNode(-1, node));
 		
 		topLevel.add(node);

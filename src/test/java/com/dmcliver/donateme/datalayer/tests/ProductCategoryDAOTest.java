@@ -1,4 +1,4 @@
-package com.dmcliver.donateme;
+package com.dmcliver.donateme.datalayer.tests;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

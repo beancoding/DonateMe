@@ -1,4 +1,4 @@
-package com.dmcliver.donateme;
+package com.dmcliver.donateme.datalayer.tests;
 
 import static java.util.UUID.randomUUID;
 
@@ -17,14 +17,14 @@ import com.dmcliver.donateme.domain.ProductCategory;
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(defaultRollback = true)
 @ContextConfiguration("classpath:/servlet-context.xml")
-public class GenerateData {
+public class HibernateDataTest {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 	
 	@Test
 	@Transactional
-	public void generateProductCategory(){
+	public void canGenerateTestProductCategoryDataOk(){
 		
 		Session session = sessionFactory.getCurrentSession();
 		

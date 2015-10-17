@@ -25,7 +25,8 @@ public class HomeControllerBean {
 	private TreeNodeBuilder builder;
 
 	@Autowired
-	public HomeControllerBean(ProductCategoryDAO prodCatDAO, TreeNodeBuilder builder){
+	public HomeControllerBean(ProductCategoryDAO prodCatDAO, TreeNodeBuilder builder) {
+		
 		this.prodCatDAO = prodCatDAO;
 		this.builder = builder;
 	}
