@@ -33,7 +33,7 @@ public class TreeNodeBuilderImpl implements TreeNodeBuilder{
 			children.removeIf(t -> true);
 		
 		prodCatDAO.getChildCategories(model.getProductCategoryId())
-			      .forEach(pc -> buildNode(children, pc));
+			  .forEach(pc -> buildNode(children, pc));
 	}
 	
 	@Override
