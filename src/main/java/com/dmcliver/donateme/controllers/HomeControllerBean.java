@@ -36,8 +36,8 @@ public class HomeControllerBean {
 		
 		root = builder.build();
 		List<ProductCategoryAggregate> topLevelCategories = prodCatDAO.getTopLevelInfo();
-		List<TreeNode> topLevel = root.getChildren();
-		topLevelCategories.forEach(c -> builder.buildNode(topLevel, c));
+		List<TreeNode> rootNodeChildren = root.getChildren();
+		topLevelCategories.forEach(pc -> builder.buildNode(rootNodeChildren, pc));
 	}
 	
 	public void onTreeExpand(NodeExpandEvent event){
