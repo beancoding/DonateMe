@@ -1,10 +1,10 @@
 package com.dmcliver.donateme.controller.tests;
 
 import static java.util.Arrays.asList;
+import static java.util.UUID.randomUUID;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
-
 import org.junit.Test;
 import org.primefaces.model.TreeNode;
 
@@ -37,8 +37,8 @@ public class HomeControllerBeanTest {
 		
 		return asList(
 			
-			new ProductCategoryAggregate(new Object[0]),
-			new ProductCategoryAggregate(new Object[0])
+			new ProductCategoryAggregate(randomUUID(), "one", 0L),
+			new ProductCategoryAggregate(randomUUID(), "two", 0L)
 		);
 	}
 }

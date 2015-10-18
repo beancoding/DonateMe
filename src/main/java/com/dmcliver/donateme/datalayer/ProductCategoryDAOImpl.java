@@ -91,7 +91,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	private List<ProductCategoryAggregate> map(List<Object[]> list) {
 		
 		return list.stream()
-				   .map(res -> new ProductCategoryAggregate(res))
+				   .map(res -> new ProductCategoryAggregate((UUID)res[0], (String)res[1], (Long)res[2]))
 				   .collect(toList());
 	}
 }

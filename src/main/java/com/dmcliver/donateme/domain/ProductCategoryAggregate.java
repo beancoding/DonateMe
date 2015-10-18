@@ -8,16 +8,13 @@ public class ProductCategoryAggregate {
 	private String productCategoryName = "";
 	private Long childCount = -1L;
 
-	public ProductCategoryAggregate(Object[] data) {
-
-		if(data != null && data.length == 3) {
-			
-			productCategoryId = (UUID) data[0];
-			productCategoryName = (String) data[1];
-			childCount = (Long) data[2];
-		}
+	public ProductCategoryAggregate(UUID id, String categoryName, Long count) {
+		
+		productCategoryId = id;
+		productCategoryName = categoryName;
+		childCount = count;
 	}
-
+	
 	public UUID getProductCategoryId() {
 		return productCategoryId;
 	}

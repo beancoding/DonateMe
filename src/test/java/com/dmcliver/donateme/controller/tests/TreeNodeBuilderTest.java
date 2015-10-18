@@ -28,7 +28,7 @@ public class TreeNodeBuilderTest {
 		ArrayList<TreeNode> children = new ArrayList<TreeNode>();
 		
 		ProductCategoryDAO prodCatDAO = mock(ProductCategoryDAO.class);
-		Mockito.when(prodCatDAO.getChildCategories(parentId)).thenReturn(asList(new ProductCategoryAggregate(new Object[]{null, "One", 1L})));
+		Mockito.when(prodCatDAO.getChildCategories(parentId)).thenReturn(asList(new ProductCategoryAggregate(null, "One", 1L)));
 		
 		TreeNodeBuilderImpl builder = new TreeNodeBuilderImpl(prodCatDAO);
 		builder.buildChildren(children, new TreeModel("ProdCat1", parentId));
@@ -44,7 +44,7 @@ public class TreeNodeBuilderTest {
 		ArrayList<TreeNode> children = new ArrayList<TreeNode>();
 		
 		ProductCategoryDAO prodCatDAO = mock(ProductCategoryDAO.class);
-		Mockito.when(prodCatDAO.getChildCategories(parentId)).thenReturn(asList(new ProductCategoryAggregate(new Object[]{null, "One", 0L})));
+		Mockito.when(prodCatDAO.getChildCategories(parentId)).thenReturn(asList(new ProductCategoryAggregate(null, "One", 0L)));
 		
 		TreeNodeBuilderImpl builder = new TreeNodeBuilderImpl(prodCatDAO);
 		builder.buildChildren(children, new TreeModel("ProdCat1", parentId));
@@ -61,7 +61,7 @@ public class TreeNodeBuilderTest {
 		children.add(new DefaultTreeNode(-1));
 		
 		ProductCategoryDAO prodCatDAO = mock(ProductCategoryDAO.class);
-		Mockito.when(prodCatDAO.getChildCategories(parentId)).thenReturn(asList(new ProductCategoryAggregate(new Object[]{null, "One", 0L})));
+		Mockito.when(prodCatDAO.getChildCategories(parentId)).thenReturn(asList(new ProductCategoryAggregate(null, "One", 0L)));
 		
 		TreeNodeBuilderImpl builder = new TreeNodeBuilderImpl(prodCatDAO);
 		builder.buildChildren(children, new TreeModel("ProdCat1", parentId));
