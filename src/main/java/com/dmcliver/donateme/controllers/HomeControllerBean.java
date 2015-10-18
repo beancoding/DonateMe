@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.model.TreeNode;
@@ -17,7 +17,7 @@ import com.dmcliver.donateme.models.TreeModel;
 
 @Component
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class HomeControllerBean {
 
 	private ProductCategoryDAO prodCatDAO;
@@ -35,8 +35,10 @@ public class HomeControllerBean {
 	public void initializeTree(){
 		
 		root = builder.build();
+		
 		List<ProductCategoryAggregate> topLevelCategories = prodCatDAO.getTopLevelInfo();
 		List<TreeNode> rootNodeChildren = root.getChildren();
+		
 		topLevelCategories.forEach(pc -> builder.buildNode(rootNodeChildren, pc));
 	}
 	

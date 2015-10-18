@@ -26,6 +26,7 @@ public class TreeNodeBuilderTest {
 		
 		UUID parentId = randomUUID();
 		ArrayList<TreeNode> children = new ArrayList<TreeNode>();
+		children.add(new DefaultTreeNode(-1));
 		
 		ProductCategoryDAO prodCatDAO = mock(ProductCategoryDAO.class);
 		Mockito.when(prodCatDAO.getChildCategories(parentId)).thenReturn(asList(new ProductCategoryAggregate(null, "One", 1L)));
@@ -49,8 +50,7 @@ public class TreeNodeBuilderTest {
 		TreeNodeBuilderImpl builder = new TreeNodeBuilderImpl(prodCatDAO);
 		builder.buildChildren(children, new TreeModel("ProdCat1", parentId));
 
-		assertThat(children.size(), is(1));
-		assertThat(children.get(0).getChildCount(), is(0));
+		assertThat(children.size(), is(0));
 	}
 	
 	@Test

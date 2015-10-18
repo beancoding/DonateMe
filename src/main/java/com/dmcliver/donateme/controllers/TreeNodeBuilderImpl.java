@@ -29,11 +29,13 @@ public class TreeNodeBuilderImpl implements TreeNodeBuilder{
 	@Override
 	public void buildChildren(List<TreeNode> children, TreeModel model) {
 		
-		if(children.size() == 1 && new Integer(-1).equals(children.get(0).getData()))
-			children.removeIf(t -> true);
+		if(children.size() == 1 && new Integer(-1).equals(children.get(0).getData())) {
 		
-		prodCatDAO.getChildCategories(model.getProductCategoryId())
-			  	  .forEach(pc -> buildNode(children, pc));
+			children.clear();
+		
+			prodCatDAO.getChildCategories(model.getProductCategoryId())
+			  	  	  .forEach(pc -> buildNode(children, pc));
+		}
 	}
 	
 	@Override
