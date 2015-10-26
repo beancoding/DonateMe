@@ -1,5 +1,7 @@
 package com.dmcliver.donateme;
 
+import static com.dmcliver.donateme.StringExt.BLANK;
+
 import java.beans.PropertyVetoException;
 import java.util.Properties;
 
@@ -42,8 +44,8 @@ public class AppConfig {
 
 		Properties props = new Properties();
 		
-		String dbTask = env.getProperty("db.hbm2ddl.auto", "");
-		if(!"".equals(dbTask))
+		String dbTask = env.getProperty("db.hbm2ddl.auto", BLANK);
+		if(!BLANK.equals(dbTask))
 			props.setProperty("hibernate.hbm2ddl.auto", dbTask);
 		
 		props.setProperty("hibernate.show_sql", "true");
