@@ -12,7 +12,7 @@ import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 import com.dmcliver.donateme.models.TreeModel;
 
 @Component
-public class TreeNodeBuilderImpl implements TreeNodeBuilder{
+public class TreeNodeBuilderImpl implements TreeNodeBuilder {
 
 	private ProductCategoryDAO prodCatDAO;
 

@@ -46,7 +46,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	public List<ProductCategoryAggregate> getTopLevelInfo(){
 		
 		Session session = sessionFactory.getCurrentSession();
-		List<Object[]> result = buildQuery(session).add(isNull("pc.parentProductCategory")).list();
+		List<Object[]> result = buildQuery(session).add(isNull("pc2.parentProductCategory")).list();
 		return map(result);
 	}
 	
@@ -59,7 +59,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	public List<ProductCategoryAggregate> getChildCategories(UUID parentId){
 		
 		Session session = sessionFactory.getCurrentSession();
-		List<Object[]> result = buildQuery(session).createAlias("pc.parentProductCategory", "gpc")
+		List<Object[]> result = buildQuery(session).createAlias("pc2.parentProductCategory", "gpc")
 												   .add(eq("gpc.productCategoryId", parentId))
 												   .list();
 		return map(result);
@@ -76,15 +76,15 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	 * Is exactly the same except for the right outer join which is shown below 
 	 * right outer join ProductCategory pc on pc.ProductCategoryId = ProductCategory.parentProductCategoryId
 	 */
-	private Criteria buildQuery(Session session){
+	private static Criteria buildQuery(Session session){
 
-	   return session.createCriteria(ProductCategory.class)
-				     .createAlias("parentProductCategory", "pc", RIGHT_OUTER_JOIN)
+	   return session.createCriteria(ProductCategory.class, "pc1")
+				     .createAlias("parentProductCategory", "pc2", RIGHT_OUTER_JOIN)
 				     .setProjection(
 				    		 
-			    		 projectionList().add(groupProperty("pc.productCategoryId"))
-					  				   	 .add(groupProperty("pc.productCategoryName"))
-					  				   	 .add(count("productCategoryId"))
+			    		 projectionList().add(groupProperty("pc2.productCategoryId"), "ProdCatId")
+					  				   	 .add(groupProperty("pc2.productCategoryName"), "ProdCatName")
+					  				   	 .add(count("productCategoryId"), "ProdCatCount")
 		    		 );
 	}
 	

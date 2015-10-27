@@ -25,7 +25,8 @@ public class AppConfig {
 	private Environment env;
 	
 	@Bean
-	public HibernateTransactionManager transactionManager() throws PropertyVetoException{
+	public HibernateTransactionManager transactionManager() throws PropertyVetoException {
+		
 		HibernateTransactionManager tx = new HibernateTransactionManager(sessionFactory().getObject());
 		return tx;
 	}
@@ -56,10 +57,10 @@ public class AppConfig {
 	public ComboPooledDataSource dataSource() throws PropertyVetoException {
 
 		ComboPooledDataSource ds = new ComboPooledDataSource();
-		ds.setJdbcUrl(env.getProperty("db.url"));
-		ds.setDriverClass(env.getProperty("db.driver"));
-		ds.setUser(env.getProperty("db.user"));
-		ds.setPassword(env.getProperty("db.password"));
+		ds.setJdbcUrl(env.getProperty("db.url", "jdbc:postgresql://localhost:5432/DonateMeDb"));
+		ds.setDriverClass(env.getProperty("db.driver", "org.postgresql.Driver"));
+		ds.setUser(env.getProperty("db.user", "postgres"));
+		ds.setPassword(env.getProperty("db.password", "root"));
 		return ds;
 	}
 }
