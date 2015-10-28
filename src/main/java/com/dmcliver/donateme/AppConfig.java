@@ -1,5 +1,7 @@
 package com.dmcliver.donateme;
 
+import static com.dmcliver.donateme.StringExt.BLANK;
+
 import java.beans.PropertyVetoException;
 import java.util.Properties;
 
@@ -23,7 +25,8 @@ public class AppConfig {
 	private Environment env;
 	
 	@Bean
-	public HibernateTransactionManager transactionManager() throws PropertyVetoException{
+	public HibernateTransactionManager transactionManager() throws PropertyVetoException {
+		
 		HibernateTransactionManager tx = new HibernateTransactionManager(sessionFactory().getObject());
 		return tx;
 	}
@@ -42,8 +45,8 @@ public class AppConfig {
 
 		Properties props = new Properties();
 		
-		String dbTask = env.getProperty("db.hbm2ddl.auto", "");
-		if(!"".equals(dbTask))
+		String dbTask = env.getProperty("db.hbm2ddl.auto", BLANK);
+		if(!BLANK.equals(dbTask))
 			props.setProperty("hibernate.hbm2ddl.auto", dbTask);
 		
 		props.setProperty("hibernate.show_sql", "true");
@@ -54,10 +57,10 @@ public class AppConfig {
 	public ComboPooledDataSource dataSource() throws PropertyVetoException {
 
 		ComboPooledDataSource ds = new ComboPooledDataSource();
-		ds.setJdbcUrl(env.getProperty("db.url"));
-		ds.setDriverClass(env.getProperty("db.driver"));
-		ds.setUser(env.getProperty("db.user"));
-		ds.setPassword(env.getProperty("db.password"));
+		ds.setJdbcUrl(env.getProperty("db.url", "jdbc:postgresql://localhost:5432/DonateMeDb"));
+		ds.setDriverClass(env.getProperty("db.driver", "org.postgresql.Driver"));
+		ds.setUser(env.getProperty("db.user", "postgres"));
+		ds.setPassword(env.getProperty("db.password", "root"));
 		return ds;
 	}
 }
