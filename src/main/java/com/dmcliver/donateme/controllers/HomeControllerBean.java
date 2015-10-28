@@ -32,7 +32,7 @@ public class HomeControllerBean {
 	}
 	
 	@PostConstruct
-	public void initializeTree(){
+	public void initializeTree() {
 		
 		root = builder.build();
 		
@@ -42,7 +42,7 @@ public class HomeControllerBean {
 		topLevelCategories.forEach(pc -> builder.buildNode(rootNodeChildren, pc));
 	}
 	
-	public void onTreeExpand(NodeExpandEvent event){
+	public void onTreeExpand(NodeExpandEvent event) {
 		
 		TreeNode treeNode = event.getTreeNode();
 		List<TreeNode> children = treeNode.getChildren();
@@ -51,7 +51,7 @@ public class HomeControllerBean {
 		builder.buildChildren(children, prodCat);
 	}
 	
-	public TreeNode getCategories(){
+	public TreeNode getCategories() {
 		return root;
 	}
 }
