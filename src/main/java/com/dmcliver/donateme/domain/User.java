@@ -1,16 +1,15 @@
 package com.dmcliver.donateme.domain;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
-@Table(name = "User")
+@Table(name = "SystemUser")
 public class User {
 
 	private long userId;
@@ -20,14 +19,16 @@ public class User {
 	private String password;
 	
 	public User(String name, String password) {
-		userName = name;
+		
+		this.userName = name;
 		this.password = password;
 	}
+	
+	protected User(){}
 
 	@Id
-	@Column(name = "Id")
-	@GenericGenerator(name = "UserId", strategy = "UserId")
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "UserId")
+	@Column(name = "UserId")
+	@GeneratedValue(strategy = IDENTITY)
 	public long getUserId() {
 		return userId;
 	}

@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import static com.dmcliver.donateme.WebConstants.Security.USER;
+
 public class UserDetailsImpl implements UserDetails {
 
 	private static final long serialVersionUID = -6827543992702671386L;
@@ -23,7 +25,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return asList(new SimpleGrantedAuthority("User"));
+		return asList(new SimpleGrantedAuthority(USER));
 	}
 
 	@Override

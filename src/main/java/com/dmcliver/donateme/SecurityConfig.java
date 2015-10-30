@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.dmcliver.donateme.services.CustomUserDetailsService;
 
+import static com.dmcliver.donateme.WebConstants.Security.ADMIN;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -21,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests()
 			.antMatchers("/login", "/badlogin", "/register", "/logout", "/resources/**").permitAll()
-			.antMatchers("/admin", "/admin/**").hasRole("Admin")
+			.antMatchers("/admin", "/admin/**").hasRole(ADMIN)
 			.anyRequest().authenticated()
 			.and()
 			.formLogin().loginPage("/login").loginProcessingUrl("/jsecuritycheck").failureUrl("/badlogin")
