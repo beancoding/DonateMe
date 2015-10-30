@@ -22,11 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
-			.antMatchers("/login", "/badlogin", "/register", "/logout", "/resources/**").permitAll()
-			.antMatchers("/admin", "/admin/**").hasRole(ADMIN)
-			.anyRequest().authenticated()
+			.antMatchers("/admin", "/admin/**").access("hasRole('" + ADMIN + "')")
 			.and()
-			.formLogin().loginPage("/login").loginProcessingUrl("/jsecuritycheck").failureUrl("/badlogin")
+			.formLogin().loginPage("/login").loginProcessingUrl("/checkcredentials").failureUrl("/badlogin")
 			.permitAll()
 			.and()
 			.logout().logoutUrl("/logout");

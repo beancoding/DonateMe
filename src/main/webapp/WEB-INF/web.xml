@@ -36,7 +36,7 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-	  <welcome-file>default.jsf</welcome-file>
+	  <welcome-file>index.html</welcome-file>
 	</welcome-file-list>
  
  	<!-- Spring Security -->
@@ -59,11 +59,7 @@
 	
 	<servlet-mapping>
 	  <servlet-name>facesServlet</servlet-name>
-	  <url-pattern>*.jsf</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-	  <servlet-name>facesServlet</servlet-name>
-	  <url-pattern>*.xhtml</url-pattern>
+	  <url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 
 </web-app>

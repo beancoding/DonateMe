@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import static com.dmcliver.donateme.WebConstants.Security.USER;
+import static com.dmcliver.donateme.WebConstants.Security.*;
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -25,7 +25,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return asList(new SimpleGrantedAuthority(USER));
+		return asList(new SimpleGrantedAuthority(USER), new SimpleGrantedAuthority(ADMIN));
 	}
 
 	@Override

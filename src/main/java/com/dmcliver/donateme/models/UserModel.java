@@ -2,14 +2,28 @@ package com.dmcliver.donateme.models;
 
 public class UserModel {
 
+	private String password;
+	private String name;
+	private String confirmPassword;
+	
 	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
+		return password;
 	}
-
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
-
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 }

@@ -36,6 +36,7 @@ public class User {
 		this.userId = userId;
 	}
 	
+	//TODO - Add non nullable constraint
 	@Column(name = "FirstName")
 	public String getFirstName() {
 		return firstName;
@@ -44,6 +45,7 @@ public class User {
 		this.firstName = firstName;
 	}
 	
+	//TODO - Add non nullable constraint
 	@Column(name = "SecondName")
 	public String getSecondName() {
 		return secondName;
@@ -60,6 +62,7 @@ public class User {
 		this.userName = userName;
 	}
 	
+	//TODO - Add non nullable constraint
 	@Column(name = "Password")
 	public String getPassword() {
 		return password;
