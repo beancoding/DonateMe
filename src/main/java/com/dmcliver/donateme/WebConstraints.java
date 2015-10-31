@@ -1,6 +1,6 @@
 package com.dmcliver.donateme;
 
-public class WebConstants {
+public class WebConstraints {
 
 	public static class Security {
 

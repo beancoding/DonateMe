@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.dmcliver.donateme.services.CustomUserDetailsService;
 
-import static com.dmcliver.donateme.WebConstants.Security.ADMIN;
+import static com.dmcliver.donateme.WebConstraints.Security.ADMIN;
 
 @Configuration
 @EnableWebSecurity
