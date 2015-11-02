@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 	public void save(UserModel model) {
 		
 		String password = passwordEncoder.encode(model.getPassword());
-		User user = new User(model.getName(), password);
+		User user = new User(model.getName(), model.getFirstName(), model.getLastName(), model.getEmail(), password);
 		sysUserDAO.save(user);
 	}
 }

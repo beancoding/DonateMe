@@ -19,8 +19,12 @@ import com.dmcliver.donateme.services.UserService;
 @Controller
 public class AccountController {
 
-	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	public AccountController(UserService userService){
+		this.userService = userService;
+	}
 	
 	@RequestMapping(value = "/admin", method = GET)
 	public String admin() {

@@ -16,27 +16,48 @@
 			<f:errors/>
 		
 			<table>
+				
 				<tr>
 					<td><f:label path="name">User name:</f:label></td>
 					<td><f:input path="name" /></td>
 					<td><f:errors path="name"/></td>
 				</tr>
 				
-				<tr><td>
-					<f:label path="password">Password:</f:label></td>
-					<td><f:password path="password" /></td>
-					<td><f:errors path="password"/>
-				</td></tr>
+				<tr>
+					<td><f:label path="firstName">First name:</f:label></td>
+					<td><f:input path="firstName" /></td>
+					<td><f:errors path="firstName"/></td>
+				</tr>
 				
-				<tr><td>
-					<f:label path="confirmPassword">Confirm password:</f:label></td>
+				<tr>
+					<td><f:label path="lastName">Last name:</f:label></td>
+					<td><f:input path="lastName" /></td>
+					<td><f:errors path="lastName"/></td>
+				</tr>
+				
+				<tr>
+					<td><f:label path="email">Email:</f:label></td>
+					<td><f:input path="email" /></td>
+					<td><f:errors path="email"/></td>
+				</tr>
+				
+				<tr>
+					<td><f:label path="password">Password:</f:label></td>
+					<td><f:password path="password" /></td>
+					<td><f:errors path="password"/></td>
+				</tr>
+				
+				<tr>
+					<td><f:label path="confirmPassword">Confirm password:</f:label></td>
 					<td><f:password path="confirmPassword" /></td>
-					<td><f:errors path="confirmPassword"/>
-				</td></tr>
+					<td><f:errors path="confirmPassword"/></td>
+				</tr>
+				
 			</table>
 			
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			<input type="submit" value="Register"> 
+			
 		</f:form>		
 	</body>
 </html>
