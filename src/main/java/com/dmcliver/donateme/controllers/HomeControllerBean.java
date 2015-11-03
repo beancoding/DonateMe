@@ -5,8 +5,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.NodeExpandEvent;
+import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,9 +22,12 @@ import com.dmcliver.donateme.models.TreeModel;
 @ViewScoped
 public class HomeControllerBean {
 
-	private ProductCategoryDAO prodCatDAO;
 	private TreeNode root;
+	
+	private ProductCategoryDAO prodCatDAO;
 	private TreeNodeBuilder builder;
+
+	private String notice;
 
 	@Autowired
 	public HomeControllerBean(ProductCategoryDAO prodCatDAO, TreeNodeBuilder builder) {
@@ -51,7 +56,21 @@ public class HomeControllerBean {
 		builder.buildChildren(children, prodCat);
 	}
 	
+	public void onSelect(NodeSelectEvent event) {
+		notice = "Selected " + event.getTreeNode().getData();
+	}
+	
+	public String getNotice() {
+		return notice;
+	}
+	
 	public TreeNode getCategories() {
 		return root;
+	}
+	
+	public String updateMessage(ActionEvent evt) {
+		
+		notice = "Button fired";
+		return "template";
 	}
 }
