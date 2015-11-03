@@ -1,9 +1,12 @@
 package com.dmcliver.donateme.models;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class TreeModel {
+public class TreeModel implements Serializable {
 
+	static final long serialVersionUID = -1241785008151879333L;
+	
 	private String productCategoryName;
 	private UUID productCategoryId;
 

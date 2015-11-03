@@ -13,15 +13,25 @@
 
     	<h1>Welcome</h1>
  		
-    	<h:form>
+    	<h:form id="form1">
+    		
+    		<h:outputText id="myNotice" value="#{homeControllerBean.notice}"/>
+    	
 	    	<p:tree value="#{homeControllerBean.categories}" selectionMode="single" var="node" dynamic="true">
 	    	
-			    <p:ajax event="expand" update="@this" listener="#{homeControllerBean.onTreeExpand}" />    
+			    <p:ajax event="expand" update="@this" listener="#{homeControllerBean.onTreeExpand}" />   
+			    <p:ajax event="select" update=":form1:myNotice" listener="#{homeControllerBean.onSelect}"/> 
+			    
 			    <p:treeNode>
 		            <h:outputText value="#{node}" />
 		        </p:treeNode>
 		        
 	    	</p:tree>
+	    	
+	    	<p:commandButton value="Send message" update=":form1:myNotice" ajax="true" actionListener="#{homeControllerBean.updateMessage}"/>
+	    	
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	    	
     	</h:form>
     	
     </ui:define>

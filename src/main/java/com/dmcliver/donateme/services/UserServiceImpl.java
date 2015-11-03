@@ -1,5 +1,7 @@
 package com.dmcliver.donateme.services;
 
+import static com.dmcliver.donateme.domain.Role.USER;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
 		
 		String password = passwordEncoder.encode(model.getPassword());
 		User user = new User(model.getName(), model.getFirstName(), model.getLastName(), model.getEmail(), password);
+		user.setRole(USER);
 		sysUserDAO.save(user);
 	}
 }

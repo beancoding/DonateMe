@@ -73,6 +73,6 @@ public class AccountController {
 	public String logout(HttpServletRequest request){
 		
 		request.getSession(false).invalidate();
-		return "/home";
+		return "redirect:/";
 	}
 }

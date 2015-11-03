@@ -1,5 +1,6 @@
 package com.dmcliver.donateme.datalayer.tests;
 
+import static com.dmcliver.donateme.domain.Role.ADMIN;
 import static java.util.UUID.randomUUID;
 
 import org.hibernate.Session;
@@ -7,20 +8,25 @@ import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dmcliver.donateme.domain.ProductCategory;
+import com.dmcliver.donateme.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(defaultRollback = true)
+@TransactionConfiguration(defaultRollback = false)
 @ContextConfiguration("classpath:/servlet-context.xml")
 public class HibernateDataTest {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	@Test
 	@Transactional
@@ -37,5 +43,17 @@ public class HibernateDataTest {
 		session.save(grandParent);
 		session.save(child);
 		session.save(grandChild);
+	}
+	
+	@Test
+	@Transactional
+	public void generateAdminUser(){
+		
+		Session session = sessionFactory.getCurrentSession();
+		String password = "Password1";
+		password = encoder.encode(password);
+		User user = new User("admin", "adminstrator", "administerial", "admin@admin.com", password);
+		user.setRole(ADMIN);
+		session.save(user);
 	}
 }

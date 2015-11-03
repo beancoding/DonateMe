@@ -24,6 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if(user == null)
 			throw new UsernameNotFoundException("Cant find user named " + username);
 		
-		return new UserDetailsImpl(user.getUserName(), user.getPassword());
+		return new UserDetailsImpl(user.getUserName(), user.getPassword(), user.getRole());
 	}
 }
