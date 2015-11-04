@@ -82,10 +82,10 @@ public class User {
 	}
 
 	@Column(name = "Role")
-	public Role getRole() {
-		return role;
+	public int getRole() {
+		return role.privilege();
 	}
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRole(int role) {
+		this.role = Role.parse(role);
 	}
 }

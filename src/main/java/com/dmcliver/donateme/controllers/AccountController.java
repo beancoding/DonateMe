@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dmcliver.donateme.DuplicateException;
 import com.dmcliver.donateme.models.UserModel;
 import com.dmcliver.donateme.services.UserService;
 
@@ -64,7 +65,19 @@ public class AccountController {
 			return "register";
 		}
 
-		userService.save(model);
+		try {
+			userService.save(model);
+		} 
+		catch (DuplicateException ex) {
+			
+			result.reject("DuplicateUser", "The user name is already taken");
+			return "register";
+		}
+		catch(Exception ex) {
+			
+			result.reject("BadUser", "Could not save user");
+			return "register";
+		}
 		
 		return "redirect:/";
 	}

@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import com.dmcliver.donateme.controllers.AccountController;
 import com.dmcliver.donateme.models.UserModel;
 import com.dmcliver.donateme.services.UserService;
+
 import org.mockito.runners.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -19,7 +20,7 @@ public class AccountControllerTest {
 	@Mock private BindingResult result;
 	
 	@Test
-	public void register_WithNoErrors_SavesUser() {
+	public void register_WithNoErrors_SavesUser() throws Exception {
 		
 		UserModel model = buildUserModel("Password");
 		
@@ -32,7 +33,7 @@ public class AccountControllerTest {
 	}
 	
 	@Test
-	public void register_WithPasswordError_AddsRejectionErrorToModelAndDoesntSaveUser() {
+	public void register_WithPasswordError_AddsRejectionErrorToModelAndDoesntSaveUser() throws Exception {
 		
 		UserModel model = buildUserModel("Sugar");
 
@@ -46,7 +47,7 @@ public class AccountControllerTest {
 	}
 	
 	@Test
-	public void register_WithValdiationError_DoesntSaveUser() {
+	public void register_WithValdiationError_DoesntSaveUser() throws Exception {
 		
 		UserModel model = buildUserModel("Password");
 		

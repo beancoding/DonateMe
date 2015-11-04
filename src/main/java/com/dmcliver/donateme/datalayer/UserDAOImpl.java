@@ -4,6 +4,8 @@ import static org.hibernate.criterion.Restrictions.eq;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,8 @@ import com.dmcliver.donateme.domain.User;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
+	private static final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
@@ -28,9 +32,17 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	@Transactional
-	public void save(User user) {
+	public void save(User user) throws Exception {
 		
 		Session session = sessionFactory.getCurrentSession();
-		session.save(user);
+		
+		try {
+			session.save(user);
+		}
+		catch(Exception ex) {
+			
+			logger.error("Could not save user", ex);
+			throw ex;
+		}
 	}
 }

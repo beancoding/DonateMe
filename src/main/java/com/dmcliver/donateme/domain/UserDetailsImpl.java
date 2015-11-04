@@ -14,9 +14,9 @@ public class UserDetailsImpl implements UserDetails {
 
 	private String userName;
 	private String password;
-	private Role role;
+	private int role;
 
-	public UserDetailsImpl(String userName, String password, Role role) {
+	public UserDetailsImpl(String userName, String password, int role) {
 
 		this.userName = userName;
 		this.password = password;
@@ -25,7 +25,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return asList(new SimpleGrantedAuthority(role.toString()));
+		return asList(new SimpleGrantedAuthority(Role.parse(role).toString()));
 	}
 
 	@Override

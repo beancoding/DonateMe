@@ -30,7 +30,7 @@ public class HibernateDataTest {
 	
 	@Test
 	@Transactional
-	public void canGenerateTestProductCategoryDataOk(){
+	public void canGenerateTestProductCategoryDataOk() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
@@ -47,13 +47,13 @@ public class HibernateDataTest {
 	
 	@Test
 	@Transactional
-	public void generateAdminUser(){
+	public void generateAdminUser() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		String password = "Password1";
 		password = encoder.encode(password);
 		User user = new User("admin", "adminstrator", "administerial", "admin@admin.com", password);
-		user.setRole(ADMIN);
+		user.setRole(ADMIN.privilege());
 		session.save(user);
 	}
 }
