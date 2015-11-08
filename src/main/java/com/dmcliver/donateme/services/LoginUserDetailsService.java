@@ -11,10 +11,14 @@ import com.dmcliver.donateme.domain.User;
 import com.dmcliver.donateme.domain.UserDetailsImpl;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class LoginUserDetailsService implements UserDetailsService {
+
+	private UserDAO userDAO;
 
 	@Autowired
-	private UserDAO userDAO;
+	public void initiateUserDAO(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -22,8 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 		User user = userDAO.findByUserName(username);
 		
 		if(user == null)
-			throw new UsernameNotFoundException("Cant find user named " + username);
+			throw new UsernameNotFoundException("The user '" + username + "' cannot be found");
 		
-		return new UserDetailsImpl(user.getUserName(), user.getPassword(), user.getRole());
+		return new UserDetailsImpl(user.getUserName(), user.getPassword(), user.getRole(), user.isEnabled());
 	}
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	template="template.xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+>
+
+	<ui:define name="header">Home</ui:define>
+ 
+    <ui:define name="content">
+    
+    	<h3>Please confirm you'd like to sell this product:</h3>
+    
+    	<h:form>
+    	
+    		<span>Brand:</span>
+    		<h:outputText value="#{model.brand}"/><br/>
+    		Model:<h:outputText value="#{model.model}"/><br/>
+    		Description:<h:outputText value="#{model.description}"/><br/>
+    		
+    	</h:form>
+    	
+    </ui:define>
+    
+</ui:composition>

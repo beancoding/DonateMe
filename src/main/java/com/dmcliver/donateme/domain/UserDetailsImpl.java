@@ -15,12 +15,14 @@ public class UserDetailsImpl implements UserDetails {
 	private String userName;
 	private String password;
 	private int role;
+	private boolean enabled;
 
-	public UserDetailsImpl(String userName, String password, int role) {
+	public UserDetailsImpl(String userName, String password, int role, boolean enabled) {
 
 		this.userName = userName;
 		this.password = password;
 		this.role = role;
+		this.enabled = enabled;
 	}
 
 	@Override
@@ -55,6 +57,6 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return this.enabled;
 	}
 }

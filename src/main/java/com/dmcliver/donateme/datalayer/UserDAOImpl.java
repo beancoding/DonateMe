@@ -26,8 +26,8 @@ public class UserDAOImpl implements UserDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 		return (User)session.createCriteria(User.class)
-					  		.add(eq("userName", userName))
-					  		.uniqueResult();
+					  		   .add(eq("userName", userName))
+					  		   .uniqueResult();
 	}
 
 	@Override

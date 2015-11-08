@@ -2,11 +2,8 @@ package com.dmcliver.donateme.controllers;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
-
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
@@ -18,8 +15,8 @@ import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 import com.dmcliver.donateme.models.TreeModel;
 
 @Component
-@ManagedBean
 @ViewScoped
+@ManagedBean
 public class HomeControllerBean {
 
 	private TreeNode root;
@@ -27,7 +24,7 @@ public class HomeControllerBean {
 	private ProductCategoryDAO prodCatDAO;
 	private TreeNodeBuilder builder;
 
-	private String notice;
+	private String notice = "no notice";
 
 	@Autowired
 	public HomeControllerBean(ProductCategoryDAO prodCatDAO, TreeNodeBuilder builder) {
@@ -36,41 +33,46 @@ public class HomeControllerBean {
 		this.builder = builder;
 	}
 	
-	@PostConstruct
-	public void initializeTree() {
+	//Tree/Get
+	public TreeNode getCategories() {
 		
-		root = builder.build();
+		if(root == null) {
+
+			root = builder.build();
+			
+			List<ProductCategoryAggregate> topLevelCategories = prodCatDAO.getTopLevelInfo();
+			List<TreeNode> rootNodeChildren = root.getChildren();
+			
+			topLevelCategories.forEach(pc -> builder.buildNode(rootNodeChildren, pc));
+		}
 		
-		List<ProductCategoryAggregate> topLevelCategories = prodCatDAO.getTopLevelInfo();
-		List<TreeNode> rootNodeChildren = root.getChildren();
-		
-		topLevelCategories.forEach(pc -> builder.buildNode(rootNodeChildren, pc));
+		return root;
 	}
 	
+	//Tree/Post
 	public void onTreeExpand(NodeExpandEvent event) {
 		
 		TreeNode treeNode = event.getTreeNode();
 		List<TreeNode> children = treeNode.getChildren();
-		TreeModel prodCat = (TreeModel)treeNode.getData();
+		TreeModel prodCatTreeModel = (TreeModel)treeNode.getData();
 		
-		builder.buildChildren(children, prodCat);
+		builder.buildChildren(children, prodCatTreeModel);
 	}
-	
-	public void onSelect(NodeSelectEvent event) {
-		notice = "Selected " + event.getTreeNode().getData();
-	}
-	
+
+	//Notice/Get
 	public String getNotice() {
 		return notice;
 	}
 	
-	public TreeNode getCategories() {
-		return root;
+	//Notice/Get/Id
+	public void onSelect(NodeSelectEvent event) {
+		notice = "Selected " + event.getTreeNode().getData();
 	}
 	
-	public String updateMessage(ActionEvent evt) {
+	//Notice/Post
+	public String updateMessage() {
 		
 		notice = "Button fired";
-		return "template";
+		return "uploadProduct";
 	}
 }

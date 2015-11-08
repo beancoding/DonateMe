@@ -3,9 +3,13 @@ package com.dmcliver.donateme.controllers;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,35 +18,40 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dmcliver.donateme.DuplicateException;
+import com.dmcliver.donateme.LoggingFactory;
 import com.dmcliver.donateme.models.UserModel;
+import com.dmcliver.donateme.services.ErrorMessageService;
 import com.dmcliver.donateme.services.UserService;
 
 @Controller
 public class AccountController {
 
 	private UserService userService;
+	private Logger logger;
+	private ErrorMessageService errMessService;
 	
 	@Autowired
-	public AccountController(UserService userService){
+	public AccountController(UserService userService, LoggingFactory logFactory, ErrorMessageService errorMessageService) {
+		
 		this.userService = userService;
+		this.errMessService = errorMessageService;
+		this.logger = logFactory.create(getClass());
 	}
 	
 	@RequestMapping(value = "/admin", method = GET)
 	public String admin() {
-		
 		return "admin";
 	}
 	
 	@RequestMapping(value = "/login", method = GET)
 	public String viewLoginPage() {
-		
 		return "login";
 	}
 	
 	@RequestMapping(value = "/badlogin", method = GET)
 	public String badLogin(Model model) {
 
-		model.addAttribute("error", true);
+		model.addAttribute("loginfail", true);
 		return "login";
 	}
 	
@@ -54,12 +63,12 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value = "/register", method = POST)
-	public String register(@Valid @ModelAttribute("User") UserModel model, BindingResult result){
+	public String register(@Valid @ModelAttribute("User") UserModel model, BindingResult result, Locale locale) {
 		
 		if(result.hasErrors())
 			return "register";
 		
-		if(!model.getConfirmPassword().equals(model.getPassword())){
+		if(!model.getConfirmPassword().equals(model.getPassword())) {
 			
 			result.reject("BadPassword", "*The passwords must match");
 			return "register";
@@ -70,7 +79,7 @@ public class AccountController {
 		} 
 		catch (DuplicateException ex) {
 			
-			result.reject("DuplicateUser", "The user name is already taken");
+			result.reject("DuplicateUser", errMessService.get("DuplicateUser", locale));
 			return "register";
 		}
 		catch(Exception ex) {
@@ -83,9 +92,15 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value = "/logout", method = GET)
-	public String logout(HttpServletRequest request){
+	public String logout(HttpServletRequest request) {
 		
-		request.getSession(false).invalidate();
+		HttpSession session = request.getSession(false);
+		
+		if(session != null)
+			session.invalidate();
+		else
+			logger.info("Some one is trying to log out, when not logged in");
+		
 		return "redirect:/";
 	}
 }

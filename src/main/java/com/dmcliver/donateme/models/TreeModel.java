@@ -11,6 +11,7 @@ public class TreeModel implements Serializable {
 	private UUID productCategoryId;
 
 	public TreeModel(String productCategoryName, UUID productCategoryId) {
+		
 		this.productCategoryName = productCategoryName;
 		this.productCategoryId = productCategoryId;
 	}

@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.dmcliver.donateme.services.CustomUserDetailsService;
+import com.dmcliver.donateme.services.LoginUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -24,14 +24,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/admin", "/admin/**").hasAuthority(ADMIN.toString())
 			.and()
-			.formLogin().loginPage("/login").loginProcessingUrl("/checkcredentials").failureUrl("/badlogin")
+			.formLogin().loginPage("/login").failureUrl("/badlogin").usernameParameter("abuser").passwordParameter("pword")
 			.permitAll()
 			.and()
 			.logout().logoutUrl("/logout");
 	}
 	
 	@Override
-	public void configure(AuthenticationManagerBuilder builder) throws Exception{
+	public void configure(AuthenticationManagerBuilder builder) throws Exception {
 		
 		builder.userDetailsService(userDetailsService())
 			   .passwordEncoder(passwordEncoder());
@@ -39,14 +39,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-		return encoder;
+		return new BCryptPasswordEncoder(10);
 	}
 
 	@Bean
 	@Override
 	public UserDetailsService userDetailsService(){
-		return new CustomUserDetailsService();
+		return new LoginUserDetailsService();
 	}
 }

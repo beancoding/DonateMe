@@ -2,7 +2,6 @@ package com.dmcliver.donateme.datalayer.tests;
 
 import static com.dmcliver.donateme.domain.Role.ADMIN;
 import static java.util.UUID.randomUUID;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Test;
@@ -52,8 +51,9 @@ public class HibernateDataTest {
 		Session session = sessionFactory.getCurrentSession();
 		String password = "Password1";
 		password = encoder.encode(password);
-		User user = new User("admin", "adminstrator", "administerial", "admin@admin.com", password);
+		User user = new User("dmcliver", "Dan", "Mcliver", "admin@admin.com", password);
 		user.setRole(ADMIN.privilege());
+		user.setEnabled(false);
 		session.save(user);
 	}
 }

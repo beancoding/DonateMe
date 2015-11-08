@@ -1,6 +1,6 @@
 package com.dmcliver.donateme;
 
-public class WebConstraints {
+public class WebConstants {
 
 	public static class Strings {
 		public static final String BLANK = "";

@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "ProductCategory")
 public class ProductCategory {
@@ -25,6 +27,7 @@ public class ProductCategory {
 	private ProductCategory parentProductCategory;
 	
 	@Id
+	@Type(type="pg-uuid")
 	@Column(name = "ProductCategoryId")
 	public UUID getProductCategoryId() {
 		return productCategoryId;

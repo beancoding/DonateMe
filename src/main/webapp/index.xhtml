@@ -28,7 +28,7 @@
 		        
 	    	</p:tree>
 	    	
-	    	<p:commandButton value="Send message" update=":form1:myNotice" ajax="true" actionListener="#{homeControllerBean.updateMessage}"/>
+	    	<p:commandButton value="Send message" ajax="true" update=":form1:myNotice" action="#{homeControllerBean.updateMessage}"/>
 	    	
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	    	

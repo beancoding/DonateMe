@@ -5,38 +5,45 @@
 
 <html>
 
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>login</title>
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>login</title>
+	</head>
 
-<body>
-	<c:if test="${not empty error}">
-		<div class="errorblock"> 
-			*${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}. The user name or password is incorrect
-		</div>
-	</c:if>
+	<body>
 	
-	<form name='f' action="<c:url value='checkcredentials' />" method='POST'>
-		<table>
-			<tr>
-				<td>User:</td>
-				<td><input type='text' name='username' value=''>
-				</td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type='password' name='password' />
-				</td>
-			</tr>
-			<tr>
-				<td colspan='2'><input name="submit" type="submit" value="login" />
-				</td>
-			</tr>
-		</table>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-	</form>
-	<a href="<c:url value='/register' />" >register</a>
-</body>
+		<c:if test="${not empty loginfail}">
+			<div class="errorblock"> 
+				*${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}. The user name or password is incorrect
+			</div>
+		</c:if>
+		
+		<form name='f' action="<c:url value='login' />" method='POST'>
+		
+			<table>
+			
+				<tr>
+					<td>User:</td>
+					<td><input type='text' name='abuser' value=''></td>
+				</tr>
+			
+				<tr>
+					<td>Password:</td>
+					<td><input type='password' name='pword' /></td>
+				</tr>
+			
+				<tr>
+					<td colspan='2'><input name="submit" type="submit" value="login" /></td>
+				</tr>
+				
+			</table>
+			
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			
+		</form>
+		
+		<a href="<c:url value='/register' />" >register</a>
+	
+	</body>
 
 </html>

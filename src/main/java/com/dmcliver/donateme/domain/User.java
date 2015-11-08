@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "SystemUser")
 public class User {
@@ -19,6 +21,7 @@ public class User {
 	private String password;
 	private String email;
 	private Role role;
+	private boolean enabled;
 	
 	public User(String name, String firstName, String lastName, String email, String password) {
 		
@@ -27,6 +30,7 @@ public class User {
 		this.secondName = lastName;
 		this.email = email;
 		this.password = password;
+		this.enabled = false;
 	}
 	
 	protected User(){}
@@ -87,5 +91,14 @@ public class User {
 	}
 	public void setRole(int role) {
 		this.role = Role.parse(role);
+	}
+
+	@Type(type = "yes_no")
+	@Column(name = "Enabled")
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }

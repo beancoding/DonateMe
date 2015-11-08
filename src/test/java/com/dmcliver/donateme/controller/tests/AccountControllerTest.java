@@ -2,13 +2,22 @@ package com.dmcliver.donateme.controller.tests;
 
 import static org.mockito.Mockito.*;
 
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.slf4j.Logger;
 import org.springframework.validation.BindingResult;
 
+import com.dmcliver.donateme.DuplicateException;
+import com.dmcliver.donateme.LoggingFactory;
 import com.dmcliver.donateme.controllers.AccountController;
 import com.dmcliver.donateme.models.UserModel;
+import com.dmcliver.donateme.services.ErrorMessageService;
 import com.dmcliver.donateme.services.UserService;
 
 import org.mockito.runners.*;
@@ -18,6 +27,8 @@ public class AccountControllerTest {
 
 	@Mock private UserService userService;
 	@Mock private BindingResult result;
+	@Mock private LoggingFactory logFactory;
+	@Mock private ErrorMessageService errorMessageService;
 	
 	@Test
 	public void register_WithNoErrors_SavesUser() throws Exception {
@@ -26,8 +37,8 @@ public class AccountControllerTest {
 		
 		when(result.hasErrors()).thenReturn(false);
 		
-		AccountController controller = new AccountController(userService);
-		controller.register(model, result);
+		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		controller.register(model, result, Locale.getDefault());
 		
 		verify(userService).save(model);
 	}
@@ -39,8 +50,8 @@ public class AccountControllerTest {
 
 		when(result.hasErrors()).thenReturn(false);
 		
-		AccountController controller = new AccountController(userService);
-		controller.register(model, result);
+		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		controller.register(model, result, Locale.getDefault());
 		
 		verify(userService, times(0)).save(model);
 		verify(result).reject(anyString(), anyString());
@@ -53,10 +64,57 @@ public class AccountControllerTest {
 		
 		when(result.hasErrors()).thenReturn(true);
 		
-		AccountController controller = new AccountController(userService);
-		controller.register(model, result);
+		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		controller.register(model, result, Locale.getDefault());
 		
 		verify(userService, times(0)).save(model);
+	}
+	
+	@Test
+	public void register_WithSaveError_AddsRejectionErrorAndReturnsToSamePage() throws Exception {
+		
+		final String errorMessage = "Come on be more inventive";
+		final String errorCode = "DuplicateUser";
+		Locale locale = Locale.getDefault();
+		
+		doThrow(new DuplicateException(null)).when(userService).save(any(UserModel.class));
+		when(errorMessageService.get(errorCode, locale)).thenReturn(errorMessage);
+		
+		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		controller.register(buildUserModel("Password"), result, locale);
+		
+		verify(result).reject(errorCode, errorMessage);
+	}
+	
+	@Test
+	public void logout_WithNullSession_LogsMessageThatSessionIsNull() {
+		
+		Logger logger = mock(Logger.class);
+		when(logFactory.create(any(Class.class))).thenReturn(logger);
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		
+		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		controller.logout(request);
+
+		verify(logger).info(anyString());
+	}
+	
+	@Test
+	public void logout_WithSession_DoesntLogMessage() {
+		
+		Logger logger = mock(Logger.class);
+		when(logFactory.create(any(Class.class))).thenReturn(logger);
+		
+		HttpSession session = mock(HttpSession.class);
+		
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		when(request.getSession(false)).thenReturn(session);
+		
+		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		controller.logout(request);
+
+		verify(logger, never()).info(anyString());
 	}
 	
 	private static UserModel buildUserModel(String confirmPassword) {
