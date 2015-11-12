@@ -1,4 +1,4 @@
-package com.dmcliver.donateme.services;
+package com.dmcliver.donateme;
 
 import static java.util.ResourceBundle.getBundle;
 
@@ -8,7 +8,7 @@ import java.util.MissingResourceException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ErrorMessageServiceImpl implements ErrorMessageService {
+public class ErrorMessageLocatorImpl implements ErrorMessageLocator {
 
 	public String get(String key, Locale locale) {
 		

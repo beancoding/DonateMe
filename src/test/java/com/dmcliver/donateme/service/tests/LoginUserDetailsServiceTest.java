@@ -21,8 +21,7 @@ public class LoginUserDetailsServiceTest {
 		
 		UserDAO userDAO = mock(UserDAO.class);
 		
-		LoginUserDetailsService service = new LoginUserDetailsService();
-		service.initiateUserDAO(userDAO);
+		LoginUserDetailsService service = new LoginUserDetailsServiceStub(userDAO);
 
 		assertThrows(UsernameNotFoundException.class, "The user 'Simon' cannot be found", () -> service.loadUserByUsername("Simon"));
 	}
@@ -31,16 +30,17 @@ public class LoginUserDetailsServiceTest {
 	public void loadUserByUsername_WithValidUser_ReturnsUserDetails() {
 		
 		final String username = "username";
-		final String password = "SecR3t7";
+		final String password = "SecR3t!7";
 		
-		User expectedUser = new User(username, "User", "Surname", "uname@email.com", password);
+		User expectedUser = new User(username,  "User", "Surname", "uname@email.com",  password);
 		expectedUser.setRole(ADMIN.privilege());
 		
-		UserDAO userDAO = mock(UserDAO.class);
-		when(userDAO.findByUserName(anyString())).thenReturn(expectedUser);
+		UserDAO userDao = mock(UserDAO.class);
+		when(userDao.findByUserName(anyString())).thenReturn(expectedUser);
 		
-		LoginUserDetailsService service = new LoginUserDetailsService();
-		service.initiateUserDAO(userDAO);
+		LoginUserDetailsService service = new LoginUserDetailsService() {{
+				this.userDAO = userDao;
+		}};
 		
 		UserDetails user = service.loadUserByUsername(username);
 		
@@ -48,3 +48,4 @@ public class LoginUserDetailsServiceTest {
 		assertThat(user.getAuthorities().stream().findFirst().get().getAuthority(), is(ADMIN.toString()));
 	}
 }
+

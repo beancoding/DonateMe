@@ -14,10 +14,11 @@ import org.slf4j.Logger;
 import org.springframework.validation.BindingResult;
 
 import com.dmcliver.donateme.DuplicateException;
+import com.dmcliver.donateme.ErrorMessageLocator;
 import com.dmcliver.donateme.LoggingFactory;
+import com.dmcliver.donateme.WebConstants;
 import com.dmcliver.donateme.controllers.AccountController;
 import com.dmcliver.donateme.models.UserModel;
-import com.dmcliver.donateme.services.ErrorMessageService;
 import com.dmcliver.donateme.services.UserService;
 
 import org.mockito.runners.*;
@@ -28,7 +29,7 @@ public class AccountControllerTest {
 	@Mock private UserService userService;
 	@Mock private BindingResult result;
 	@Mock private LoggingFactory logFactory;
-	@Mock private ErrorMessageService errorMessageService;
+	@Mock private ErrorMessageLocator errorMessageService;
 	
 	@Test
 	public void register_WithNoErrors_SavesUser() throws Exception {
@@ -97,7 +98,7 @@ public class AccountControllerTest {
 		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
 		controller.logout(request);
 
-		verify(logger).info(anyString());
+		verify(logger).info(WebConstants.Messages.LoggingOutWhenNotLoggedIn);
 	}
 	
 	@Test

@@ -11,4 +11,8 @@ public class WebConstants {
 		public static final String USER = "User";
 		public static final String ADMIN = "Admin";
 	}
+
+	public static class Messages {
+		public static final String LoggingOutWhenNotLoggedIn = "Some one is trying to log out, when not logged in";
+	}
 }

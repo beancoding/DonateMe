@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dmcliver.donateme.DuplicateException;
+import com.dmcliver.donateme.ErrorMessageLocator;
 import com.dmcliver.donateme.LoggingFactory;
+
+import static com.dmcliver.donateme.WebConstants.Messages.LoggingOutWhenNotLoggedIn;
+
 import com.dmcliver.donateme.models.UserModel;
-import com.dmcliver.donateme.services.ErrorMessageService;
 import com.dmcliver.donateme.services.UserService;
 
 @Controller
@@ -28,10 +31,10 @@ public class AccountController {
 
 	private UserService userService;
 	private Logger logger;
-	private ErrorMessageService errMessService;
+	private ErrorMessageLocator errMessService;
 	
 	@Autowired
-	public AccountController(UserService userService, LoggingFactory logFactory, ErrorMessageService errorMessageService) {
+	public AccountController(UserService userService, LoggingFactory logFactory, ErrorMessageLocator errorMessageService) {
 		
 		this.userService = userService;
 		this.errMessService = errorMessageService;
@@ -99,7 +102,7 @@ public class AccountController {
 		if(session != null)
 			session.invalidate();
 		else
-			logger.info("Some one is trying to log out, when not logged in");
+			logger.info(LoggingOutWhenNotLoggedIn);
 		
 		return "redirect:/";
 	}

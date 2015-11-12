@@ -13,13 +13,9 @@ import com.dmcliver.donateme.domain.UserDetailsImpl;
 @Service
 public class LoginUserDetailsService implements UserDetailsService {
 
-	private UserDAO userDAO;
-
 	@Autowired
-	public void initiateUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
-	
+	protected UserDAO userDAO;
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		

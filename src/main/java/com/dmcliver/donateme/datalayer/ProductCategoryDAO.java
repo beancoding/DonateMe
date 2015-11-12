@@ -3,6 +3,7 @@ package com.dmcliver.donateme.datalayer;
 import java.util.List;
 import java.util.UUID;
 
+import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 
 public interface ProductCategoryDAO {
@@ -16,4 +17,7 @@ public interface ProductCategoryDAO {
 	 * Gets all the child categories by the parent id
 	 */
 	List<ProductCategoryAggregate> getChildCategories(UUID parentId);
+
+	ProductCategory getById(UUID prodCatId);
 }
+
