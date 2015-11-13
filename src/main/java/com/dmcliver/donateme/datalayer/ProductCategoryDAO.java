@@ -19,5 +19,7 @@ public interface ProductCategoryDAO {
 	List<ProductCategoryAggregate> getChildCategories(UUID parentId);
 
 	ProductCategory getById(UUID prodCatId);
+
+	void save(ProductCategory productCategory);
 }
 

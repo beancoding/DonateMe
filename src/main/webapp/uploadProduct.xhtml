@@ -17,19 +17,6 @@
     	<h:form id="prodForm">
     		
     		<h:outputText id="notice" value="#{productControllerBean.model.notice}"/>
-    		
-    		<h:panelGrid>
-	    		<p:selectOneMenu id="cats" value="#{productControllerBean.model.selected}">
-	    			<p:ajax event="change" update=":prodForm:notice" listener="#{productControllerBean.catChanged}" />
-	    			<f:selectItems value="#{productControllerBean.model.categories}"/>
-	    		</p:selectOneMenu>
-	    		
-	    		<h:selectOneMenu id="jcats" value="#{productControllerBean.model.selected}">
-	    			<f:ajax event="change" render="notice" listener="#{productControllerBean.catChanged}"/>
-	    			<f:selectItems value="#{productControllerBean.model.categories}"/>
-	    		</h:selectOneMenu>
-	    		
-    		</h:panelGrid>
 
     		<br/>
     		brand

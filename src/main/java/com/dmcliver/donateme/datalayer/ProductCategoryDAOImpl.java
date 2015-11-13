@@ -102,4 +102,12 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		Session session = sessionFactory.getCurrentSession();
 		return (ProductCategory)session.get(ProductCategory.class, prodCatId);
 	}
+
+	@Override
+	@Transactional
+	public void save(ProductCategory productCategory) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		session.save(productCategory);
+	}
 }

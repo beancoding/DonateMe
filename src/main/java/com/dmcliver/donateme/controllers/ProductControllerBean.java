@@ -5,11 +5,15 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import static com.dmcliver.donateme.WebConstants.Strings.BLANK;
+import static java.util.UUID.randomUUID;
 
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.datalayer.ProductDAO;
@@ -24,14 +28,14 @@ import com.dmcliver.donateme.models.TreeModel;
 public class ProductControllerBean {
 	
 	private ProductModel model;
-	private ProductCategory selectedCategory;
-	
 	private ModelContainer modelContainer;
+
 	private ProductDAO productDAO;
 	private ProductCategoryDAO prodCatDAO;
+	
 	private TreeNodeBuilder treeBuilder;
 	private ModelValidationMessages validatorMessages;
-	
+
 	@Autowired
 	public ProductControllerBean(ModelContainer modelContainer, ProductDAO productDAO, ProductCategoryDAO prodCatDAO, TreeNodeBuilder treeBuilder, ModelValidationMessages validatorMessages) {
 		this(modelContainer, productDAO, prodCatDAO, treeBuilder, validatorMessages, new ProductModel());
@@ -61,7 +65,10 @@ public class ProductControllerBean {
 	
 	public String save() {
 		
-		if(selectedCategory == null) {
+		ProductCategory productCategory = model.getProductCategory();
+		String newCategory = model.getNewCategory();
+
+		if(productCategory == null && BLANK.equals(newCategory)) {
 		
 			validatorMessages.add("CategoryRequired");
 			return "uploadProduct";
@@ -71,14 +78,17 @@ public class ProductControllerBean {
 		
 		Product product = new Product();
 		product.setProductName(model.getBrand());
-		product.setProductCategory(selectedCategory);
+
+		if(productCategory == null) {
+			
+			productCategory = new ProductCategory(randomUUID(), newCategory); 
+			prodCatDAO.save(productCategory);
+		}
+
+		product.setProductCategory(productCategory);
 		productDAO.save(product);
 		
 		return "confirm";
-	}
-	
-	public void catChanged() {
-		model.setNotice("You've selected " + model.getSelected());
 	}
 	
 	public void onTreeExpand(NodeExpandEvent event) {
@@ -90,6 +100,6 @@ public class ProductControllerBean {
 	public void onTreeSelect(NodeSelectEvent event) {
 		
 		UUID prodCatId = ((TreeModel)event.getTreeNode().getData()).getProductCategoryId();
-		selectedCategory = prodCatDAO.getById(prodCatId);
+		model.setProductCategory(prodCatDAO.getById(prodCatId));
 	}
 }

@@ -45,6 +45,7 @@ public class HomeControllerBean {
 			
 			topLevelCategories.forEach(pc -> builder.buildNode(rootNodeChildren, pc));
 		}
+		
 		return root;
 	}
 	
