@@ -15,6 +15,7 @@ public class Product {
 	private String model;
 	private String description;
 	private ProductCategory productCategory;
+	private Brand brand;
 	
 	@Id
 	@Column(name = "ProductId")
@@ -48,5 +49,14 @@ public class Product {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name = "BrandId")
+	public Brand getBrand() {
+		return brand;
+	}
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 }
