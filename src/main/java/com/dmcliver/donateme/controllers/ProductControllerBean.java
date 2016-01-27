@@ -77,7 +77,7 @@ public class ProductControllerBean {
 		modelContainer.add(model, "model");
 		
 		Product product = new Product();
-		product.setProductName(model.getBrand());
+		product.setModel(model.getBrand());
 
 		if(productCategory == null) {
 			

@@ -55,7 +55,7 @@ public class ProductControllerBeanTest {
 		verify(productDAO).save(productCaptor.capture());
 		
 		Product product = productCaptor.getValue();
-		assertThat(product.getProductName(), is(productBrandName));
+		assertThat(product.getModel(), is(productBrandName));
 		
 		assertThat(destination, is("confirm"));
 		
@@ -76,7 +76,7 @@ public class ProductControllerBeanTest {
 		verify(productDAO).save(productCaptor.capture());
 		
 		Product product = productCaptor.getValue();
-		assertThat(product.getProductName(), is(brand));
+		assertThat(product.getModel(), is(brand));
 		assertThat(pageView, is("confirm"));
 		verify(container).add(model, "model");
 	}
