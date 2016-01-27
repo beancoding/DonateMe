@@ -94,4 +94,20 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 				   .map(res -> new ProductCategoryAggregate((UUID)res[0], (String)res[1], (Long)res[2]))
 				   .collect(toList());
 	}
+
+	@Override
+	@Transactional
+	public ProductCategory getById(UUID prodCatId) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return (ProductCategory)session.get(ProductCategory.class, prodCatId);
+	}
+
+	@Override
+	@Transactional
+	public void save(ProductCategory productCategory) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		session.save(productCategory);
+	}
 }

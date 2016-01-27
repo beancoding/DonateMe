@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	template="template.xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+>
+
+	<ui:define name="header">Home</ui:define>
+ 
+    <ui:define name="content">
+    	
+    	<h3>Upload some products here...</h3>
+    	
+    	<h:form id="prodForm">
+
+    		<br/>
+    		brand
+    		<h:inputText id="prodModBrand" value="#{productControllerBean.model.brand}" validatorMessage="#{messages.requiredProductModelBrand}">
+    			<f:validateRequired/>
+    		</h:inputText>
+    		<h:message for="prodModBrand"/><br/>
+    		
+    		model<h:inputText id="prodMod" value="#{productControllerBean.model.model}" validatorMessage="#{messages.requiredProductModelName}">
+    			<f:validateLength minimum="3"/>
+    		</h:inputText>
+    		<h:message for="prodMod"/><br/>
+    		
+    		description<h:inputText value="#{productControllerBean.model.description}"/><br/>
+    		
+    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    		
+    		<p:commandButton value="submit" ajax="false" action="#{productControllerBean.save()}" />
+    		
+    	</h:form>
+    	
+    </ui:define>
+ 
+ </ui:composition>

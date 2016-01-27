@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	template="template.xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+>
+
+	<ui:define name="header">Home</ui:define>
+ 
+    <ui:define name="content">
+
+    	<h1>Welcome</h1>
+ 		
+    	<h:form id="form1">
+    		
+    		<h:outputText id="myNotice" value="#{homeControllerBean.notice}"/>
+    	
+	    	<p:tree value="#{homeControllerBean.categories}" selectionMode="single" var="node" dynamic="true">
+	    	
+			    <p:ajax event="expand" update="@this" listener="#{homeControllerBean.onTreeExpand}" />   
+			    <p:ajax event="select" update=":form1:myNotice" listener="#{homeControllerBean.onSelect}"/> 
+			    
+			    <p:treeNode>
+		            <h:outputText value="#{node}" />
+		        </p:treeNode>
+		        
+	    	</p:tree>
+	    	
+	    	<p:commandButton value="Send message" ajax="true" update=":form1:myNotice" action="#{homeControllerBean.updateMessage}"/>
+	    	
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	    	
+    	</h:form>
+    	
+    </ui:define>
+ 
+</ui:composition>

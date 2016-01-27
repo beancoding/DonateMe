@@ -28,7 +28,7 @@ public class HomeControllerBeanTest {
 		when(builder.build()).thenReturn(root);
 		
 		HomeControllerBean controller = new HomeControllerBean(prodCatDAO, builder);
-		controller.initializeTree();
+		controller.getCategories();
 		
 		verify(builder, times(2)).buildNode(anyList(), any(ProductCategoryAggregate.class));
 	}

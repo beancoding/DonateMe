@@ -13,5 +13,8 @@ public interface TreeNodeBuilder {
 
 	void buildNode(List<TreeNode> topLevel, ProductCategoryAggregate c);
 
+	/**
+	 * Builds the children for the current selected tree item if it hasn't been built yet using the treemodels selected item id to retrieve the data
+	 */
 	void buildChildren(List<TreeNode> children, TreeModel prodCat);
 }

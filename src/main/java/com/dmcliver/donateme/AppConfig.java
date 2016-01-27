@@ -1,7 +1,5 @@
 package com.dmcliver.donateme;
 
-import static com.dmcliver.donateme.StringExt.BLANK;
-
 import java.beans.PropertyVetoException;
 import java.util.Properties;
 
@@ -15,6 +13,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import static com.dmcliver.donateme.WebConstants.Strings.BLANK;
 
 @Configuration
 @EnableTransactionManagement

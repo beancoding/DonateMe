@@ -26,15 +26,15 @@ public class TreeNodeBuilderImpl implements TreeNodeBuilder {
 		return new DefaultTreeNode("Root", null);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void buildChildren(List<TreeNode> children, TreeModel model) {
 		
 		if(children.size() == 1 && new Integer(-1).equals(children.get(0).getData())) {
-		
 			children.clear();
-		
-			prodCatDAO.getChildCategories(model.getProductCategoryId())
-			  	  	  .forEach(pc -> buildNode(children, pc));
+			prodCatDAO.getChildCategories(model.getProductCategoryId()).forEach(pc -> buildNode(children, pc));
 		}
 	}
 	

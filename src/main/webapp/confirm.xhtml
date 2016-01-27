@@ -10,20 +10,18 @@
 	<ui:define name="header">Home</ui:define>
  
     <ui:define name="content">
-
-    	<h1>Welcome</h1>
- 		
+    
+    	<h3>Please confirm you'd like to sell this product:</h3>
+    
     	<h:form>
-	    	<p:tree value="#{homeControllerBean.categories}" selectionMode="single" var="node" dynamic="true">
-	    	
-			    <p:ajax event="expand" update="@this" listener="#{homeControllerBean.onTreeExpand}" />    
-			    <p:treeNode>
-		            <h:outputText value="#{node}" />
-		        </p:treeNode>
-		        
-	    	</p:tree>
+    	
+    		<span>Brand:</span>
+    		<h:outputText value="#{model.brand}"/><br/>
+    		Model:<h:outputText value="#{model.model}"/><br/>
+    		Description:<h:outputText value="#{model.description}"/><br/>
+    		
     	</h:form>
     	
     </ui:define>
- 
+    
 </ui:composition>
