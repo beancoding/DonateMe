@@ -14,7 +14,7 @@ import org.hibernate.annotations.Type;
 public class Brand {
 
 	private UUID brandId;
-	private String BrandName;
+	private String brandName;
 	
 	@Id
 	@Type(type = "pg-uuid")
@@ -28,9 +28,9 @@ public class Brand {
 	
 	@Column(name = "BrandName", nullable = false)
 	public String getBrandName() {
-		return BrandName;
+		return brandName;
 	}
 	public void setBrandName(String brandName) {
-		BrandName = brandName;
+		this.brandName = brandName;
 	}
 }

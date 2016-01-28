@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import static com.dmcliver.donateme.WebConstants.Strings.BLANK;
 import static java.util.UUID.randomUUID;
 
+import java.util.List;
+
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.datalayer.ProductDAO;
 import com.dmcliver.donateme.domain.Product;
@@ -77,8 +79,10 @@ public class ProductControllerBean {
 		modelContainer.add(model, "model");
 		
 		Product product = new Product();
-		product.setModel(model.getBrand());
-
+		product.setBrand(productDAO.getProductBrand(model.getBrand()));
+		product.setModel(model.getModel());
+		product.setDescription(model.getDescription());
+		
 		if(productCategory == null) {
 			
 			productCategory = new ProductCategory(randomUUID(), newCategory); 
@@ -89,6 +93,11 @@ public class ProductControllerBean {
 		productDAO.save(product);
 		
 		return "confirm";
+	}
+	
+	public List<String> brandSearch(String potentialBrand) {
+		
+		return productDAO.getProductBrands(potentialBrand);
 	}
 	
 	public void onTreeExpand(NodeExpandEvent event) {
