@@ -25,7 +25,7 @@
     		</p:autoComplete>
     		<h:message for="prodModBrand"/><br/>
     		
-    		model<h:inputText id="prodMod" value="#{productControllerBean.model.model}" validatorMessage="#{messages.requiredProductModelName}">
+    		model<h:inputText id="prodMod" value="#{productControllerBean.model.modelName}" validatorMessage="#{messages.requiredProductModelName}">
     			<f:validateLength minimum="3"/>
     		</h:inputText>
     		<h:message for="prodMod"/><br/>
@@ -33,6 +33,8 @@
     		product category<h:inputText value="#{productControllerBean.model.newCategory}"/>
     		
     		description<h:inputText value="#{productControllerBean.model.description}"/><br/>
+    		
+    		<p:fileUpload></p:fileUpload>
     		
     		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     		

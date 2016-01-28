@@ -8,7 +8,7 @@ import com.dmcliver.donateme.domain.ProductCategory;
 public class ProductModel {
 
 	private String brand;
-	private String model;
+	private String modelName;
 	private String description;
 	private TreeNode root;
 	private String newCategory = BLANK;
@@ -21,11 +21,11 @@ public class ProductModel {
 		this.brand = brand;
 	}
 
-	public String getModel() {
-		return model;
+	public String getModelName() {
+		return modelName;
 	}
-	public void setModel(String model) {
-		this.model = model;
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
 	}
 
 	public String getDescription() {

@@ -80,7 +80,7 @@ public class ProductControllerBean {
 		
 		Product product = new Product();
 		product.setBrand(productDAO.getProductBrand(model.getBrand()));
-		product.setModel(model.getModel());
+		product.setModel(model.getModelName());
 		product.setDescription(model.getDescription());
 		
 		if(productCategory == null) {
