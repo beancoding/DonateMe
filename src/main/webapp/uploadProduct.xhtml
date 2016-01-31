@@ -34,7 +34,7 @@
     		
     		description<h:inputText value="#{productControllerBean.model.description}"/><br/>
     		
-    		<p:fileUpload></p:fileUpload>
+    		<p:fileUpload fileUploadListener="#{productControllerBean.handleFileUpload}" multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/"/>
     		
     		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     		

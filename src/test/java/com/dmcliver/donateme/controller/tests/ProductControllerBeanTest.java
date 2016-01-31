@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import com.dmcliver.donateme.controllers.ModelContainer;
@@ -22,6 +21,7 @@ import com.dmcliver.donateme.domain.Product;
 import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.models.ProductModel;
 import com.dmcliver.donateme.models.TreeModel;
+import com.dmcliver.donateme.services.ProductService;
 
 import org.mockito.runners.MockitoJUnitRunner;
 import org.primefaces.event.NodeSelectEvent;
@@ -30,53 +30,52 @@ import org.primefaces.model.TreeNode;
 @RunWith(MockitoJUnitRunner.class)
 public class ProductControllerBeanTest {
 
+	private static final String newCategory = "Food";;
+	
 	@Mock private ModelContainer container;
 	@Mock private ProductDAO productDAO;
 	@Mock private ProductCategoryDAO prodCatDAO;
 	@Mock private TreeNodeBuilder treeBuilder;
 	@Mock private ModelValidationMessages messages;
 	@Mock private NodeSelectEvent event;
+	@Mock private ProductService productService;
 	
 	@Test
 	public void save_WithBrandNameAndProductCategorySelected_SavesWithProductNameOfBrand() {
 
 		final String productBrandName = "SugarPlum";
+		ProductCategory prodCat = new ProductCategory(randomUUID(), "Cat1");
 		
 		buildTreeModelForTreeNodeSelectEvent();
 		ProductModel model = buildProductModel(productBrandName);		
+		model.setNewCategory(null);
 		
-		when(prodCatDAO.getById(any(UUID.class))).thenReturn(new ProductCategory(randomUUID(), "Cat1"));
+		when(prodCatDAO.getById(any(UUID.class))).thenReturn(prodCat);
 		
-		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model);
+		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
 		controller.onTreeSelect(event);
 		final String destination = controller.save();
 		
-		ArgumentCaptor<Product> productCaptor = ArgumentCaptor.forClass(Product.class);
-		verify(productDAO).save(productCaptor.capture());
-		
-		Product product = productCaptor.getValue();
-		assertThat(product.getModel(), is(productBrandName));
-		
+		verify(prodCatDAO).save(prodCat);
+		verify(productService, never()).createProductCategory(anyString());
+		verify(productService).createBrand(model);
 		assertThat(destination, is("confirm"));
-		
 		verify(container).add(model, "model");
 	}
 	
 	@Test
-	public void save_WithNewCategory_SavesDownToDb() {
+	public void save_WithNewCategoryAndNoBrandName_SavesNewProductCategoryAndDoesntCreateBrand() {
 		
-		final String brand = "Sugar";
+		ProductModel model = buildProductModel(null);
 		
-		ProductModel model = buildProductModel(brand);
-		
-		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model);
+		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
 		String pageView = controller.save();
 		
-		ArgumentCaptor<Product> productCaptor = ArgumentCaptor.forClass(Product.class);
-		verify(productDAO).save(productCaptor.capture());
-		
-		Product product = productCaptor.getValue();
-		assertThat(product.getModel(), is(brand));
+		verify(productService).createProductCategory("Food");
+		verify(prodCatDAO, never()).save(any(ProductCategory.class));
+		verify(productService, never()).createBrand(model);
+
+		verify(container).add(model, "model");
 		assertThat(pageView, is("confirm"));
 		verify(container).add(model, "model");
 	}
@@ -84,7 +83,7 @@ public class ProductControllerBeanTest {
 	@Test
 	public void save_WithNoProductCategorySelected_DoesntSaveToDbButReturnsErrorMessage() {
 		
-		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages);
+		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, productService);
 		String pageView = controller.save();
 		
 		verify(productDAO, never()).save(any(Product.class));
@@ -103,7 +102,7 @@ public class ProductControllerBeanTest {
 		
 		ProductModel model = new ProductModel();
 		model.setBrand(brand);
-		model.setNewCategory("Food");
+		model.setNewCategory(newCategory);
 		return model;
 	}
 }

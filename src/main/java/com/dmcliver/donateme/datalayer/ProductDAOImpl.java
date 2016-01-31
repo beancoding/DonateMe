@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dmcliver.donateme.domain.Brand;
+import com.dmcliver.donateme.domain.Image;
 import com.dmcliver.donateme.domain.Product;
 
 @Repository
@@ -50,5 +51,16 @@ public class ProductDAOImpl implements ProductDAO {
 							 .add(eq("brandName", brand))
 							 .setMaxResults(1)
 							 .uniqueResult();
+	}
+
+	@Transactional
+	public void saveProductBrand(Brand brand) {
+		sessionFactory.getCurrentSession().save(brand);
+	}
+
+	@Override
+	@Transactional
+	public void saveProductImage(Image image) {
+		sessionFactory.getCurrentSession().save(image);
 	}
 }

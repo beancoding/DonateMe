@@ -15,6 +15,15 @@ public class Image {
 	private URL fileNamePath;
 	private Product product;
 	
+	public Image(UUID id, URL url, Product product) {
+		
+		imageId = id;
+		fileNamePath = url;
+		this.product = product;
+	}
+	
+	protected Image() {}
+	
 	@Id
 	@Type(type = "pg-uuid")
 	@Column(name = "ImageId")

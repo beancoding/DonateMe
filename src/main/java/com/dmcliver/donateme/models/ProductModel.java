@@ -1,8 +1,13 @@
 package com.dmcliver.donateme.models;
 
 import org.primefaces.model.TreeNode;
+import org.primefaces.model.UploadedFile;
 
 import static com.dmcliver.donateme.WebConstants.Strings.BLANK;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import com.dmcliver.donateme.domain.ProductCategory;
 
 public class ProductModel {
@@ -13,7 +18,8 @@ public class ProductModel {
 	private TreeNode root;
 	private String newCategory = BLANK;
 	private ProductCategory productCategory;
-	
+	private List<UploadedFile> files = new LinkedList<UploadedFile>();
+
 	public String getBrand() {
 		return brand;
 	}
@@ -54,5 +60,13 @@ public class ProductModel {
 	}
 	public void setProductCategory(ProductCategory productCategory) {
 		this.productCategory = productCategory;
+	}
+	
+	public void addFile(UploadedFile file) {
+		files.add(file);
+	}
+	
+	public List<UploadedFile> getFiles() {
+		return files;
 	}
 }
