@@ -88,28 +88,20 @@ public class ProductControllerBean {
 		else
 			prodCatDAO.save(productCategory);
 		
-		if(!isNullOrEmpty(model.getBrand())) {
-		
-			Brand brand = productService.createBrand(model);
-			try {
-				productService.createProduct(brand, productCategory, model, model.getFiles());
-			} 
-			catch (IOException ex) {
-
-				validatorMessages.add("ProductImageSaveError"); //TODO: hook up error message
-				return "uploadProduct";
-			}
-		}
-		else {
+		try {
 			
-			try {
+			if(!isNullOrEmpty(model.getBrand())) {
+			
+				Brand brand = productService.createBrand(model);
+				productService.createProduct(brand, productCategory, model, model.getFiles());
+			}
+			else 
 				productService.createProduct(productCategory, model, model.getFiles());
-			}
-			catch (IOException ex) {
-				
-				validatorMessages.add("ProductImageSaveError"); //TODO: hook up error message
-				return "uploadProduct";
-			}
+		}
+		catch(IOException ex) {
+			
+			validatorMessages.add("ProductImageSaveError");
+			return "uploadProduct";
 		}
 		
 		return "confirm";

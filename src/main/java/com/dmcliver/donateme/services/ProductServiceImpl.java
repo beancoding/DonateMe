@@ -50,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
 		return productCategory;
 	}
 
+	@Override
 	public Brand createBrand(ProductModel model) {
 		
 		BrandBuildResult brandResult = brandBuilder.build(model);
@@ -82,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Product createProduct(ProductCategory productCategory, ProductModel model){
+	public Product createProduct(ProductCategory productCategory, ProductModel model) {
 		
 		Product product = productBuilder.build(productCategory, model);
 		productDAO.save(product);
