@@ -19,6 +19,7 @@ import static com.dmcliver.donateme.WebConstants.Strings.BLANK;
 import java.io.IOException;
 import java.util.List;
 
+import com.dmcliver.donateme.builders.TreeNodeBuilder;
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.datalayer.ProductDAO;
 import com.dmcliver.donateme.domain.Brand;
@@ -108,7 +109,6 @@ public class ProductControllerBean {
 	}
 
 	public List<String> brandSearch(String potentialBrand) {
-		
 		return productDAO.getProductBrands(potentialBrand);
 	}
 	

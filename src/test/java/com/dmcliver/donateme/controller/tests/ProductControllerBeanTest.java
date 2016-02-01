@@ -13,10 +13,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
+import com.dmcliver.donateme.builders.TreeNodeBuilder;
 import com.dmcliver.donateme.controllers.ModelContainer;
 import com.dmcliver.donateme.controllers.ModelValidationMessages;
 import com.dmcliver.donateme.controllers.ProductControllerBean;
-import com.dmcliver.donateme.controllers.TreeNodeBuilder;
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.datalayer.ProductDAO;
 import com.dmcliver.donateme.domain.Brand;
