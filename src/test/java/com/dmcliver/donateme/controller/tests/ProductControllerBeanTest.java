@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -17,6 +19,7 @@ import com.dmcliver.donateme.controllers.ProductControllerBean;
 import com.dmcliver.donateme.controllers.TreeNodeBuilder;
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.datalayer.ProductDAO;
+import com.dmcliver.donateme.domain.Brand;
 import com.dmcliver.donateme.domain.Product;
 import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.models.ProductModel;
@@ -41,7 +44,9 @@ public class ProductControllerBeanTest {
 	@Mock private ProductService productService;
 	
 	@Test
-	public void save_WithBrandNameAndProductCategorySelected_SavesWithProductNameOfBrand() {
+	public void save_WithBrandNameAndProductCategorySelected_SavesWithProductNameOfBrand() throws MalformedURLException, IOException {
+
+		Brand brand = new Brand();
 
 		final String productBrandName = "SugarPlum";
 		ProductCategory prodCat = new ProductCategory(randomUUID(), "Cat1");
@@ -51,6 +56,7 @@ public class ProductControllerBeanTest {
 		model.setNewCategory(null);
 		
 		when(prodCatDAO.getById(any(UUID.class))).thenReturn(prodCat);
+		when(this.productService.createBrand(model)).thenReturn(brand);
 		
 		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
 		controller.onTreeSelect(event);
@@ -58,15 +64,20 @@ public class ProductControllerBeanTest {
 		
 		verify(prodCatDAO).save(prodCat);
 		verify(productService, never()).createProductCategory(anyString());
+		verify(productService).createProduct(brand, prodCat, model, model.getFiles());
+		verify(productService, never()).createProduct(prodCat, model, model.getFiles());
 		verify(productService).createBrand(model);
 		assertThat(destination, is("confirm"));
 		verify(container).add(model, "model");
 	}
 	
 	@Test
-	public void save_WithNewCategoryAndNoBrandName_SavesNewProductCategoryAndDoesntCreateBrand() {
+	public void save_WithNewCategoryAndNoBrandName_SavesNewProductCategoryAndDoesntCreateBrand() throws MalformedURLException, IOException {
 		
 		ProductModel model = buildProductModel(null);
+		
+		ProductCategory prodCat = new ProductCategory(randomUUID(), "");
+		when(this.productService.createProductCategory("Food")).thenReturn(prodCat);
 		
 		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
 		String pageView = controller.save();
@@ -74,12 +85,31 @@ public class ProductControllerBeanTest {
 		verify(productService).createProductCategory("Food");
 		verify(prodCatDAO, never()).save(any(ProductCategory.class));
 		verify(productService, never()).createBrand(model);
-
+		verify(productService).createProduct(prodCat, model, model.getFiles());
+		verify(productService, never()).createProduct(any(Brand.class), eq(prodCat), eq(model), eq(model.getFiles()));
 		verify(container).add(model, "model");
 		assertThat(pageView, is("confirm"));
 		verify(container).add(model, "model");
 	}
 
+	@Test
+	@SuppressWarnings("unchecked")
+	public void save_WithIOException_AddsErrorMessageAndReturnsToProductPage() throws MalformedURLException, IOException {
+	
+		ProductCategory prodCat = new ProductCategory(randomUUID(), "");
+		when(this.productService.createProductCategory("Food")).thenReturn(prodCat);
+		
+		ProductModel model = buildProductModel(null);
+		
+		when(this.productService.createProduct(prodCat, model, model.getFiles())).thenThrow(IOException.class);
+		
+		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
+		String page = controller.save();
+		
+		verify(this.messages).add("ProductImageSaveError");
+		assertThat(page, is("uploadProduct"));
+	}
+	
 	@Test
 	public void save_WithNoProductCategorySelected_DoesntSaveToDbButReturnsErrorMessage() {
 		

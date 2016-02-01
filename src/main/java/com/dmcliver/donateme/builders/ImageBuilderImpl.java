@@ -1,7 +1,7 @@
 package com.dmcliver.donateme.builders;
 
 import static java.util.UUID.randomUUID;
-
+import static com.dmcliver.donateme.WebConstants.Messages.MalformedURLError;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,7 +44,7 @@ public class ImageBuilderImpl implements ImageBuilder {
 			}
 			catch (MalformedURLException ex) {
 				
-				logger.error("The filename: " + fileName + " is malformed and hence bad and invalid.", ex);
+				logger.error(String.format(MalformedURLError, fileName), ex);
 				throw ex;
 			}
 			fileService.write(fileName, uploadedFile.getContents());

@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import com.dmcliver.donateme.builders.BrandBuildResult;
+import com.dmcliver.donateme.builders.BrandBuilder;
 import com.dmcliver.donateme.builders.BrandBuilderImpl;
 import com.dmcliver.donateme.datalayer.ProductDAO;
 import com.dmcliver.donateme.domain.Brand;
@@ -26,7 +27,7 @@ public class BrandBuilderTest {
 		
 		when(productDAO.getProductBrand(anyString())).thenReturn(null);
 		
-		BrandBuilderImpl builder = new BrandBuilderImpl(productDAO);
+		BrandBuilder builder = new BrandBuilderImpl(productDAO);
 		BrandBuildResult result = builder.build(new ProductModel());
 		
 		assertThat(result.isExisting(), is(false));
@@ -40,7 +41,7 @@ public class BrandBuilderTest {
 		
 		when(productDAO.getProductBrand(anyString())).thenReturn(brand);
 		
-		BrandBuilderImpl builder = new BrandBuilderImpl(productDAO);
+		BrandBuilder builder = new BrandBuilderImpl(productDAO);
 		BrandBuildResult result = builder.build(new ProductModel());
 		
 		assertThat(result.isExisting(), is(true));
