@@ -1,4 +1,4 @@
-package com.dmcliver.donateme.controller.tests;
+package com.dmcliver.donateme.builder.tests;
 
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
