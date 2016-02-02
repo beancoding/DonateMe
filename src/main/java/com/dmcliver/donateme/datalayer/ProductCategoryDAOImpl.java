@@ -29,7 +29,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 
 	@Transactional
 	@SuppressWarnings("unchecked")
-	public List<ProductCategory> getTopLevelCategories(){
+	public List<ProductCategory> getTopLevelCategories() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		return session.createCriteria(ProductCategory.class)
@@ -43,7 +43,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	@Override
 	@Transactional
 	@SuppressWarnings("unchecked")
-	public List<ProductCategoryAggregate> getTopLevelInfo(){
+	public List<ProductCategoryAggregate> getTopLevelInfo() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		List<Object[]> result = buildQuery(session).add(isNull("pc2.parentProductCategory")).list();
@@ -56,7 +56,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	@Override
 	@Transactional
 	@SuppressWarnings("unchecked")
-	public List<ProductCategoryAggregate> getChildCategories(UUID parentId){
+	public List<ProductCategoryAggregate> getChildCategories(UUID parentId) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		List<Object[]> result = buildQuery(session).createAlias("pc2.parentProductCategory", "gpc")
@@ -66,17 +66,18 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	}
 	
 	/**
-	 * HQL:
-	 * select pc.productCategoryId, pc.productCategoryName, count(productCategoryId)
-	 * from ProductCategory
-	 * right outer join ProductCategory.parentProductCagory pc 
-	 * group by pc.productCategoryId, pc.productCategoryName
-	 * 
-	 * SQL:
-	 * Is exactly the same except for the right outer join which is shown below 
-	 * right outer join ProductCategory pc on pc.ProductCategoryId = ProductCategory.parentProductCategoryId
+	 * <p>
+	 * <h3>HQL:</h3>
+	 * SELECT pc.productCategoryId, pc.productCategoryName, COUNT(productCategoryId) <br/>
+	 * FROM ProductCategory <br/>
+	 * RIGHT OUTER JOIN ProductCategory.parentProductCagory pc <br/>
+	 * GROUP BY pc.productCategoryId, pc.productCategoryName </p>
+	 * <p>
+	 * <h3>SQL:</h3>
+	 * Is exactly the same except for the right outer join which is shown below: <br/>
+	 * RIGHT OUTER JOIN ProductCategory pc on pc.ProductCategoryId = ProductCategory.parentProductCategoryId </p>
 	 */
-	private static Criteria buildQuery(Session session){
+	private static Criteria buildQuery(Session session) {
 
 	   return session.createCriteria(ProductCategory.class, "pc1")
 				     .createAlias("parentProductCategory", "pc2", RIGHT_OUTER_JOIN)

@@ -15,22 +15,27 @@
     	<h3>Upload some products here...</h3>
     	
     	<h:form id="prodForm">
-    		
-    		<h:outputText id="notice" value="#{productControllerBean.model.notice}"/>
+
+			<h:messages/>
 
     		<br/>
     		brand
-    		<h:inputText id="prodModBrand" value="#{productControllerBean.model.brand}" validatorMessage="#{messages.requiredProductModelBrand}">
+    		<p:autoComplete id="prodModBrand" minQueryLength="3" value="#{productControllerBean.model.brand}" completeMethod="#{productControllerBean.brandSearch}" validatorMessage="#{messages.requiredProductModelBrand}" effect="fade" >
     			<f:validateRequired/>
-    		</h:inputText>
+    		</p:autoComplete>
     		<h:message for="prodModBrand"/><br/>
     		
-    		model<h:inputText id="prodMod" value="#{productControllerBean.model.model}" validatorMessage="#{messages.requiredProductModelName}">
+    		model<h:inputText id="prodMod" value="#{productControllerBean.model.modelName}" validatorMessage="#{messages.requiredProductModelName}">
     			<f:validateLength minimum="3"/>
     		</h:inputText>
     		<h:message for="prodMod"/><br/>
     		
+    		<!-- TODO: Add tree here -->
+    		product category<h:inputText value="#{productControllerBean.model.newCategory}"/>
+    		
     		description<h:inputText value="#{productControllerBean.model.description}"/><br/>
+    		
+    		<p:fileUpload fileUploadListener="#{productControllerBean.handleFileUpload}" multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/"/>
     		
     		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     		
@@ -41,3 +46,5 @@
     </ui:define>
  
  </ui:composition>
+ 
+ 
