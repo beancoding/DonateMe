@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import com.dmcliver.donateme.controllers.TreeNodeBuilderImpl;
+import com.dmcliver.donateme.builders.TreeNodeBuilderImpl;
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 import com.dmcliver.donateme.models.TreeModel;

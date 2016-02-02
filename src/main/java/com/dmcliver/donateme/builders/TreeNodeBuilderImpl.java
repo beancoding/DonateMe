@@ -1,4 +1,4 @@
-package com.dmcliver.donateme.controllers;
+package com.dmcliver.donateme.builders;
 
 import java.util.List;
 
@@ -33,6 +33,7 @@ public class TreeNodeBuilderImpl implements TreeNodeBuilder {
 	public void buildChildren(List<TreeNode> children, TreeModel model) {
 		
 		if(children.size() == 1 && new Integer(-1).equals(children.get(0).getData())) {
+			
 			children.clear();
 			prodCatDAO.getChildCategories(model.getProductCategoryId()).forEach(pc -> buildNode(children, pc));
 		}

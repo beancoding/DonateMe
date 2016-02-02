@@ -13,6 +13,8 @@ public class WebConstants {
 	}
 
 	public static class Messages {
+		
 		public static final String LoggingOutWhenNotLoggedIn = "Some one is trying to log out, when not logged in";
+		public static final String MalformedURLError = "The filename: %s is malformed and hence bad and invalid.";
 	}
 }

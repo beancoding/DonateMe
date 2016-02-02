@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Test;
 import org.primefaces.model.TreeNode;
 
+import com.dmcliver.donateme.builders.TreeNodeBuilder;
 import com.dmcliver.donateme.controllers.HomeControllerBean;
-import com.dmcliver.donateme.controllers.TreeNodeBuilder;
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 
