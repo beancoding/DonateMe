@@ -30,7 +30,16 @@
     		</h:inputText>
     		<h:message for="prodMod"/><br/>
     		
-    		<!-- TODO: Add tree here -->
+    		<p:tree value="#{productControllerBean.categories}" selectionMode="single" var="node" dynamic="true">
+	    	
+			    <p:ajax event="expand" update="@this" listener="#{productControllerBean.onTreeExpand}" />   
+			    <p:ajax event="select" update=":form1:myNotice" listener="#{productControllerBean.onTreeSelect}"/> 
+			    
+			    <p:treeNode>
+		            <h:outputText value="#{node}" />
+		        </p:treeNode>
+		        
+	    	</p:tree>
     		product category<h:inputText value="#{productControllerBean.model.newCategory}"/>
     		
     		description<h:inputText value="#{productControllerBean.model.description}"/><br/>

@@ -127,4 +127,8 @@ public class ProductControllerBean {
 	public void handleFileUpload(FileUploadEvent evt) {
 		model.addFile(evt.getFile());
 	}
+	
+	public TreeNode getCategories() {
+		return model.getRoot();
+	}
 }
