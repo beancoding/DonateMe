@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.dmcliver.donateme.StringExt.isNullOrEmpty;
-import static com.dmcliver.donateme.WebConstants.Strings.BLANK;
+import static com.dmcliver.donateme.WebConstants.Strings.*;
+import static com.dmcliver.donateme.WebConstants.Messages.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -78,14 +79,19 @@ public class ProductControllerBean {
 
 		if(productCategory == null && BLANK.equals(newCategory)) {
 		
-			validatorMessages.add("CategoryRequired");
+			validatorMessages.add(CategoryRequired);
 			return "uploadProduct";
 		}
 		
 		modelContainer.add(model, "model");
 
-		if(!isNullOrEmpty(newCategory))
+		if(!isNullOrEmpty(newCategory) && productCategory != null)
 			productCategory = productService.createProductCategory(newCategory);
+		else if(!isNullOrEmpty(newCategory)) {
+			
+			validatorMessages.add(CategoryRequired);
+			return "uploadProduct";
+		}
 		else
 			prodCatDAO.save(productCategory);
 		
