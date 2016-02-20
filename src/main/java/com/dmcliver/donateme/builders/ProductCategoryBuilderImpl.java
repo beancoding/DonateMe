@@ -13,4 +13,12 @@ public class ProductCategoryBuilderImpl implements ProductCategoryBuilder {
 	public ProductCategory build(String newCategory) {
 		return new ProductCategory(randomUUID(), newCategory); 
 	}
+	
+	@Override
+	public ProductCategory build(String newCategory, ProductCategory parent) {
+		
+		ProductCategory productCategory = new ProductCategory(randomUUID(), newCategory);
+		productCategory.setParentProductCategory(parent);
+		return productCategory; 
+	}
 }

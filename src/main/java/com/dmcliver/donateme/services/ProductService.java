@@ -13,7 +13,7 @@ import com.dmcliver.donateme.models.ProductModel;
 
 public interface ProductService {
 
-	ProductCategory createProductCategory(String newCategory);
+	ProductCategory createProductCategory(String newCategory, ProductCategory parent);
 	Brand createBrand(ProductModel model);
 	Product createProduct(ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException;
 	Product createProduct(Brand brand, ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException;

@@ -33,7 +33,7 @@ import org.primefaces.model.TreeNode;
 @RunWith(MockitoJUnitRunner.class)
 public class ProductControllerBeanTest {
 
-	private static final String newCategory = "Food";;
+	private static final String newCategory = "Food";
 	
 	@Mock private ModelContainer container;
 	@Mock private ProductDAO productDAO;
@@ -52,7 +52,7 @@ public class ProductControllerBeanTest {
 		ProductCategory prodCat = new ProductCategory(randomUUID(), "Cat1");
 		
 		buildTreeModelForTreeNodeSelectEvent();
-		ProductModel model = buildProductModel(productBrandName);		
+		ProductModel model = new ProductModelBuilder().build(productBrandName, null);		
 		model.setNewCategory(null);
 		
 		when(prodCatDAO.getById(any(UUID.class))).thenReturn(prodCat);
@@ -63,7 +63,7 @@ public class ProductControllerBeanTest {
 		final String destination = controller.save();
 		
 		verify(prodCatDAO).save(prodCat);
-		verify(productService, never()).createProductCategory(anyString());
+		verify(productService, never()).createProductCategory(anyString(), any(ProductCategory.class));
 		verify(productService).createProduct(brand, prodCat, model, model.getFiles());
 		verify(productService, never()).createProduct(prodCat, model, model.getFiles());
 		verify(productService).createBrand(model);
@@ -72,17 +72,18 @@ public class ProductControllerBeanTest {
 	}
 	
 	@Test
-	public void save_WithNewCategoryAndNoBrandName_SavesNewProductCategoryAndDoesntCreateBrand() throws MalformedURLException, IOException {
+	public void save_WithNewCategoryAndExistingProductCategorySelectedButNoBrandName_SavesNewProductCategoryAndDoesntCreateBrand() throws MalformedURLException, IOException {
 		
-		ProductModel model = buildProductModel(null);
+		ProductCategory parentProdCat = new ProductCategory(UUID.randomUUID(), "");
+		ProductModel model = new ProductModelBuilder().with(parentProdCat).build(null, newCategory);
 		
 		ProductCategory prodCat = new ProductCategory(randomUUID(), "");
-		when(this.productService.createProductCategory("Food")).thenReturn(prodCat);
+		when(this.productService.createProductCategory("Food", parentProdCat)).thenReturn(prodCat);
 		
 		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
 		String pageView = controller.save();
 		
-		verify(productService).createProductCategory("Food");
+		verify(productService).createProductCategory("Food", parentProdCat);
 		verify(prodCatDAO, never()).save(any(ProductCategory.class));
 		verify(productService, never()).createBrand(model);
 		verify(productService).createProduct(prodCat, model, model.getFiles());
@@ -91,15 +92,15 @@ public class ProductControllerBeanTest {
 		assertThat(pageView, is("confirm"));
 		verify(container).add(model, "model");
 	}
-
+	
 	@Test
 	@SuppressWarnings("unchecked")
 	public void save_WithIOException_AddsErrorMessageAndReturnsToProductPage() throws MalformedURLException, IOException {
 	
 		ProductCategory prodCat = new ProductCategory(randomUUID(), "");
-		when(this.productService.createProductCategory("Food")).thenReturn(prodCat);
+		when(this.productService.createProductCategory("Food", null)).thenReturn(prodCat);
 		
-		ProductModel model = buildProductModel(null);
+		ProductModel model = new ProductModelBuilder().with((ProductCategory)null).build(null, newCategory);
 		
 		when(this.productService.createProduct(prodCat, model, model.getFiles())).thenThrow(IOException.class);
 		
@@ -126,13 +127,5 @@ public class ProductControllerBeanTest {
 		TreeNode node = mock(TreeNode.class);
 		when(event.getTreeNode()).thenReturn(node);
 		when(node.getData()).thenReturn(new TreeModel("Cat1", randomUUID()));
-	}
-	
-	private static ProductModel buildProductModel(final String brand) {
-		
-		ProductModel model = new ProductModel();
-		model.setBrand(brand);
-		model.setNewCategory(newCategory);
-		return model;
 	}
 }

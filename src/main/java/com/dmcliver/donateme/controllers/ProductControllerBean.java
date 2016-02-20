@@ -85,8 +85,8 @@ public class ProductControllerBean {
 		
 		modelContainer.add(model, "model");
 
-		if(!isNullOrEmpty(newCategory) && productCategory != null)
-			productCategory = productService.createProductCategory(newCategory);
+		if(!isNullOrEmpty(newCategory))
+			productCategory = productService.createProductCategory(newCategory, productCategory);
 		else if(!isNullOrEmpty(newCategory)) {
 			
 			validatorMessages.add(CategoryRequired);
