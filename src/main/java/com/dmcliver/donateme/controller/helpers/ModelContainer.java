@@ -1,4 +1,4 @@
-package com.dmcliver.donateme.controllers;
+package com.dmcliver.donateme.controller.helpers;
 
 import java.util.UUID;
 

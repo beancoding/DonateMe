@@ -1,4 +1,4 @@
-package com.dmcliver.donateme.controllers;
+package com.dmcliver.donateme.controller.helpers;
 
 import static java.lang.Long.parseLong;
 import static javax.faces.context.FacesContext.getCurrentInstance;

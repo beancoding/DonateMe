@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductCategory createProductCategory(String newCategory, ProductCategory parent) {
 
-		ProductCategory productCategory = parent == null ? productCategoryBuilder.build(newCategory) : productCategoryBuilder.build(newCategory, parent);
+		ProductCategory productCategory = productCategoryBuilder.build(newCategory, parent);
 		prodCatDAO.save(productCategory);
 		return productCategory;
 	}

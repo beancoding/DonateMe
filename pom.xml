@@ -228,15 +228,15 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
-                     <plugin>
-                                <groupId>org.apache.maven.plugins</groupId>
-                                <artifactId>maven-install-plugin</artifactId>
-                                <version>2.5.1</version>
-                                <configuration>
-                                        <createChecksum>false</createChecksum>
-                                        <updateReleaseInfo>false</updateReleaseInfo>
-                                </configuration>
-                        </plugin>
+            <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-install-plugin</artifactId>
+	            <version>2.5.1</version>
+	            <configuration>
+              		<createChecksum>false</createChecksum>
+              		<updateReleaseInfo>false</updateReleaseInfo>
+	            </configuration>
+               </plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins></plugins>

@@ -1,4 +1,4 @@
-package com.dmcliver.donateme.controllers;
+package com.dmcliver.donateme.controller.helpers;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import static javax.faces.context.FacesContext.getCurrentInstance;

@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 import com.dmcliver.donateme.builders.TreeNodeBuilder;
+import com.dmcliver.donateme.controller.helpers.ModelContainer;
+import com.dmcliver.donateme.controller.helpers.ModelValidationMessages;
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.datalayer.ProductDAO;
 import com.dmcliver.donateme.domain.Brand;
@@ -32,7 +34,7 @@ import com.dmcliver.donateme.services.ProductService;
 @Component
 @ViewScoped
 @ManagedBean
-public class ProductControllerBean {
+public class ProductUploadControllerBean {
 	
 	private ProductModel model;
 	private ModelContainer modelContainer;
@@ -45,11 +47,11 @@ public class ProductControllerBean {
 	private ProductService productService;
 
 	@Autowired
-	public ProductControllerBean(ModelContainer modelContainer, ProductDAO productDAO, ProductCategoryDAO prodCatDAO, TreeNodeBuilder treeBuilder, ModelValidationMessages validatorMessages, ProductService productService) {
+	public ProductUploadControllerBean(ModelContainer modelContainer, ProductDAO productDAO, ProductCategoryDAO prodCatDAO, TreeNodeBuilder treeBuilder, ModelValidationMessages validatorMessages, ProductService productService) {
 		this(modelContainer, productDAO, prodCatDAO, treeBuilder, validatorMessages, new ProductModel(), productService);
 	}
 
-	public ProductControllerBean(ModelContainer modelContainer, ProductDAO productDAO, ProductCategoryDAO prodCatDAO, TreeNodeBuilder treeBuilder, ModelValidationMessages validatorMessages, ProductModel model, ProductService productService) {
+	public ProductUploadControllerBean(ModelContainer modelContainer, ProductDAO productDAO, ProductCategoryDAO prodCatDAO, TreeNodeBuilder treeBuilder, ModelValidationMessages validatorMessages, ProductModel model, ProductService productService) {
 		
 		this.modelContainer = modelContainer;
 		this.productDAO = productDAO;

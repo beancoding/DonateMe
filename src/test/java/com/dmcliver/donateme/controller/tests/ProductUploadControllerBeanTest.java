@@ -14,9 +14,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import com.dmcliver.donateme.builders.TreeNodeBuilder;
-import com.dmcliver.donateme.controllers.ModelContainer;
-import com.dmcliver.donateme.controllers.ModelValidationMessages;
-import com.dmcliver.donateme.controllers.ProductControllerBean;
+import com.dmcliver.donateme.controller.helpers.ModelContainer;
+import com.dmcliver.donateme.controller.helpers.ModelValidationMessages;
+import com.dmcliver.donateme.controllers.ProductUploadControllerBean;
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.datalayer.ProductDAO;
 import com.dmcliver.donateme.domain.Brand;
@@ -31,7 +31,7 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProductControllerBeanTest {
+public class ProductUploadControllerBeanTest {
 
 	private static final String newCategory = "Food";
 	
@@ -58,7 +58,7 @@ public class ProductControllerBeanTest {
 		when(prodCatDAO.getById(any(UUID.class))).thenReturn(prodCat);
 		when(this.productService.createBrand(model)).thenReturn(brand);
 		
-		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
+		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
 		controller.onTreeSelect(event);
 		final String destination = controller.save();
 		
@@ -80,7 +80,7 @@ public class ProductControllerBeanTest {
 		ProductCategory prodCat = new ProductCategory(randomUUID(), "");
 		when(this.productService.createProductCategory("Food", parentProdCat)).thenReturn(prodCat);
 		
-		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
+		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
 		String pageView = controller.save();
 		
 		verify(productService).createProductCategory("Food", parentProdCat);
@@ -94,7 +94,6 @@ public class ProductControllerBeanTest {
 	}
 	
 	@Test
-	@SuppressWarnings("unchecked")
 	public void save_WithIOException_AddsErrorMessageAndReturnsToProductPage() throws MalformedURLException, IOException {
 	
 		ProductCategory prodCat = new ProductCategory(randomUUID(), "");
@@ -102,9 +101,9 @@ public class ProductControllerBeanTest {
 		
 		ProductModel model = new ProductModelBuilder().with((ProductCategory)null).build(null, newCategory);
 		
-		when(this.productService.createProduct(prodCat, model, model.getFiles())).thenThrow(IOException.class);
+		when(this.productService.createProduct(prodCat, model, model.getFiles())).thenThrow(new IOException());
 		
-		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
+		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
 		String page = controller.save();
 		
 		verify(this.messages).add("ProductImageSaveError");
@@ -114,12 +113,25 @@ public class ProductControllerBeanTest {
 	@Test
 	public void save_WithNoProductCategorySelected_DoesntSaveToDbButReturnsErrorMessage() {
 		
-		ProductControllerBean controller = new ProductControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, productService);
+		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, productService);
 		String pageView = controller.save();
 		
 		verify(productDAO, never()).save(any(Product.class));
 		verify(messages).add("CategoryRequired");
 		assertThat(pageView, is("uploadProduct"));
+	}
+	
+	@Test
+	public void save_WithNewCategory_CallsProductServiceWithParentProductCategoryAndNewCategory() {
+		
+		ProductCategory prodCat = new ProductCategory(randomUUID(), "");
+		
+		ProductModel model = new ProductModelBuilder().with(prodCat).build(null, newCategory);
+		
+		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, productDAO, prodCatDAO, treeBuilder, messages, model, productService);
+		controller.save();
+		
+		verify(this.productService).createProductCategory(newCategory, prodCat);
 	}
 	
 	private void buildTreeModelForTreeNodeSelectEvent() {
@@ -129,3 +141,4 @@ public class ProductControllerBeanTest {
 		when(node.getData()).thenReturn(new TreeModel("Cat1", randomUUID()));
 	}
 }
+

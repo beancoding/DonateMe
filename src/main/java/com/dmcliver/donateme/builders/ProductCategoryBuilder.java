@@ -4,6 +4,5 @@ import com.dmcliver.donateme.domain.ProductCategory;
 
 public interface ProductCategoryBuilder {
 
-	ProductCategory build(String newCategory);
 	ProductCategory build(String newCategory, ProductCategory parent);
 }
