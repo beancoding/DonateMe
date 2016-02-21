@@ -48,7 +48,7 @@ public class ProductDAOImpl implements ProductDAO {
 		Session session = sessionFactory.getCurrentSession();
 		
 		return (Brand)session.createCriteria(Brand.class)
-							 .add(eq("brandName", brand))
+							 .add(eq("brandName", brand).ignoreCase())
 							 .setMaxResults(1)
 							 .uniqueResult();
 	}
