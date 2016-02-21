@@ -20,20 +20,20 @@
 
     		<br/>
     		brand
-    		<p:autoComplete id="prodModBrand" minQueryLength="3" value="#{productControllerBean.model.brand}" completeMethod="#{productControllerBean.brandSearch}" validatorMessage="#{messages.requiredProductModelBrand}" effect="fade" >
+    		<p:autoComplete id="prodModBrand" minQueryLength="3" value="#{productUploadControllerBean.model.brand}" completeMethod="#{productUploadControllerBean.brandSearch}" validatorMessage="#{messages.requiredProductModelBrand}" effect="fade" >
     			<f:validateRequired/>
     		</p:autoComplete>
     		<h:message for="prodModBrand"/><br/>
     		
-    		model<h:inputText id="prodMod" value="#{productControllerBean.model.modelName}" validatorMessage="#{messages.requiredProductModelName}">
+    		model<h:inputText id="prodMod" value="#{productUploadControllerBean.model.modelName}" validatorMessage="#{messages.requiredProductModelName}">
     			<f:validateLength minimum="3"/>
     		</h:inputText>
     		<h:message for="prodMod"/><br/>
     		
     		<p:tree value="#{productControllerBean.model.root}" selectionMode="single" var="node" dynamic="true">
 	    	
-			    <p:ajax event="expand" update="@this" listener="#{productControllerBean.onTreeExpand}" />   
-			    <p:ajax event="select" listener="#{productControllerBean.onTreeSelect}"/> 
+			    <p:ajax event="expand" update="@this" listener="#{productUploadControllerBean.onTreeExpand}" />   
+			    <p:ajax event="select" listener="#{productUploadControllerBean.onTreeSelect}"/> 
 			    
 			    <p:treeNode>
 		            <h:outputText value="#{node}" />
@@ -41,15 +41,15 @@
 		        
 	    	</p:tree><br/>
 	    	
-    		product category<h:inputText value="#{productControllerBean.model.newCategory}"/><br/>
+    		product category<h:inputText value="#{productUploadControllerBean.model.newCategory}"/><br/>
     		
-    		description<h:inputText value="#{productControllerBean.model.description}"/><br/>
+    		description<h:inputText value="#{productUploadControllerBean.model.description}"/><br/>
     		
-    		<p:fileUpload fileUploadListener="#{productControllerBean.handleFileUpload}" multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/"/>
+    		<p:fileUpload fileUploadListener="#{productUploadControllerBean.handleFileUpload}" multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/"/>
     		
     		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     		
-    		<p:commandButton value="submit" ajax="false" action="#{productControllerBean.save()}" />
+    		<p:commandButton value="submit" ajax="false" action="#{productUploadControllerBean.save()}" />
     		
     	</h:form>
     	
