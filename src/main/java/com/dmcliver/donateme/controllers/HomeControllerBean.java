@@ -1,5 +1,7 @@
 package com.dmcliver.donateme.controllers;
 
+import static com.dmcliver.donateme.WebConstants.Strings.TREE_ROOT;
+
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -37,7 +39,7 @@ public class HomeControllerBean {
 	//Tree/Get
 	public TreeNode getCategories() {
 		
-		if(root == null) {
+		if(root == null || isEmptyTree()) {
 
 			root = builder.build();
 			
@@ -48,6 +50,12 @@ public class HomeControllerBean {
 		}
 		
 		return root;
+	}
+
+	private boolean isEmptyTree() {
+		
+		Object data = root.getData();
+		return TREE_ROOT.equals(data == null ? "" : data.toString()) && root.getChildren().isEmpty();
 	}
 	
 	//Tree/Post

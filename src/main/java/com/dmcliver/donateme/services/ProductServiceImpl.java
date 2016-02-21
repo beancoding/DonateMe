@@ -45,12 +45,14 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductCategory createProductCategory(String newCategory, ProductCategory parent) {
 
+		//TODO: check that product does not already exist, will need to be transactional
 		ProductCategory productCategory = productCategoryBuilder.build(newCategory, parent);
 		prodCatDAO.save(productCategory);
 		return productCategory;
 	}
 
 	@Override
+	@Transactional
 	public Brand createBrand(ProductModel model) {
 		
 		BrandBuildResult brandResult = brandBuilder.build(model);

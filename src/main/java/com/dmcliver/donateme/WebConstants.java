@@ -3,7 +3,9 @@ package com.dmcliver.donateme;
 public class WebConstants {
 
 	public static class Strings {
+		
 		public static final String BLANK = "";
+		public static final String TREE_ROOT = "Root";
 	}
 	
 	public static class Security {

@@ -1,5 +1,7 @@
 package com.dmcliver.donateme.builders;
 
+import static com.dmcliver.donateme.WebConstants.Strings.TREE_ROOT;
+
 import java.util.List;
 
 import org.primefaces.model.DefaultTreeNode;
@@ -23,7 +25,7 @@ public class TreeNodeBuilderImpl implements TreeNodeBuilder {
 	
 	@Override
 	public TreeNode build() {
-		return new DefaultTreeNode("Root", null);
+		return new DefaultTreeNode(TREE_ROOT, null);
 	}
 	
 	/**
