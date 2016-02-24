@@ -10,7 +10,6 @@ import static org.hibernate.sql.JoinType.RIGHT_OUTER_JOIN;
 
 import java.util.List;
 import java.util.UUID;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -42,12 +41,15 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	 */
 	@Override
 	@Transactional
-	@SuppressWarnings("unchecked")
 	public List<ProductCategoryAggregate> getTopLevelInfo() {
 		
 		Session session = sessionFactory.getCurrentSession();
-		List<Object[]> result = buildQuery(session).add(isNull("pc2.parentProductCategory")).list();
-		return map(result);
+		List<?> result = buildQuery(session).add(isNull("pc2.parentProductCategory")).list();
+		return map(safeCast(Object[].class, result));
+	}
+	
+	private static <T> List<T> safeCast(Class<T> cls, List<?> l) {
+		return l.stream().map(x -> (T)x).collect(toList());
 	}
 	
 	/**
@@ -55,14 +57,15 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	 */
 	@Override
 	@Transactional
-	@SuppressWarnings("unchecked")
 	public List<ProductCategoryAggregate> getChildCategories(UUID parentId) {
 		
 		Session session = sessionFactory.getCurrentSession();
-		List<Object[]> result = buildQuery(session).createAlias("pc2.parentProductCategory", "gpc")
-												   .add(eq("gpc.productCategoryId", parentId))
-												   .list();
-		return map(result);
+		
+		List<?> result = buildQuery(session).createAlias("pc2.parentProductCategory", "gpc")
+											.add(eq("gpc.productCategoryId", parentId))
+										    .list();
+		
+		return map(result.stream().map(x -> (Object[])x).collect(toList()));
 	}
 	
 	/**
@@ -110,5 +113,19 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		
 		Session session = sessionFactory.getCurrentSession();
 		session.save(productCategory);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
+	public ProductCategory getCategory(String newCategory) {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		return (ProductCategory) currentSession.createCriteria(ProductCategory.class)
+							 				   .add(eq("productCategoryName", newCategory).ignoreCase())
+							 				   .setMaxResults(1)
+							 				   .uniqueResult();
 	}
 }

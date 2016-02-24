@@ -45,7 +45,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductCategory createProductCategory(String newCategory, ProductCategory parent) {
 
-		//TODO: check that product does not already exist, will need to be transactional
+		ProductCategory category = prodCatDAO.getCategory(newCategory);
+		if(category != null)
+			return category;
+		
 		ProductCategory productCategory = productCategoryBuilder.build(newCategory, parent);
 		prodCatDAO.save(productCategory);
 		return productCategory;
@@ -73,7 +76,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	@Transactional
 	public Product createProduct(ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException {
 		
 		Product createdProduct = createProduct(productCategory, model);

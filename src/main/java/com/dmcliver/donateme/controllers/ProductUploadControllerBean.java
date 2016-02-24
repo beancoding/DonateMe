@@ -12,6 +12,7 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.dmcliver.donateme.StringExt.isNullOrEmpty;
 import static com.dmcliver.donateme.WebConstants.Strings.*;
@@ -86,18 +87,26 @@ public class ProductUploadControllerBean {
 		}
 		
 		modelContainer.add(model, "model");
-
-		if(!isNullOrEmpty(newCategory))
-			productCategory = productService.createProductCategory(newCategory, productCategory);
-		else if(!isNullOrEmpty(newCategory)) {
-			
-			validatorMessages.add(CategoryRequired);
-			return "uploadProduct";
-		}
-		else
-			prodCatDAO.save(productCategory);
 		
 		try {
+			saveNewProduct(productCategory, newCategory);
+		}
+		catch (IOException ex) {
+			
+			validatorMessages.add("ProductImageSaveError");
+			return "uploadProduct";
+		}
+		
+		return "confirm";
+	}
+
+	@Transactional
+	private void saveNewProduct(ProductCategory productCategory, String newCategory) throws IOException {
+
+			if(!isNullOrEmpty(newCategory))
+				productCategory = productService.createProductCategory(newCategory, productCategory);
+			else
+				prodCatDAO.save(productCategory);
 			
 			if(!isNullOrEmpty(model.getBrand())) {
 			
@@ -106,14 +115,6 @@ public class ProductUploadControllerBean {
 			}
 			else 
 				productService.createProduct(productCategory, model, model.getFiles());
-		}
-		catch(IOException ex) {
-			
-			validatorMessages.add("ProductImageSaveError");
-			return "uploadProduct";
-		}
-		
-		return "confirm";
 	}
 
 	public List<String> brandSearch(String potentialBrand) {

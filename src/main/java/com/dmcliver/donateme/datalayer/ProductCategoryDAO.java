@@ -21,5 +21,12 @@ public interface ProductCategoryDAO {
 	ProductCategory getById(UUID prodCatId);
 
 	void save(ProductCategory productCategory);
+
+	/**
+	 * Finds the category by the category name - is case insensitive
+	 * @param newCategory - The category name
+	 * @return The category or null if none found
+	 */
+	ProductCategory getCategory(String newCategory);
 }
 
