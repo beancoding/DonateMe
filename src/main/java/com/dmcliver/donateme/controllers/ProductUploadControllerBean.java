@@ -86,8 +86,6 @@ public class ProductUploadControllerBean {
 			return "uploadProduct";
 		}
 		
-		modelContainer.add(model, "model");
-		
 		try {
 			saveNewProduct(productCategory, newCategory);
 		}
@@ -97,26 +95,39 @@ public class ProductUploadControllerBean {
 			return "uploadProduct";
 		}
 		
+		modelContainer.add(model, "model");
+		
 		return "confirm";
 	}
 
 	@Transactional
 	private void saveNewProduct(ProductCategory productCategory, String newCategory) throws IOException {
 
-			if(!isNullOrEmpty(newCategory))
-				productCategory = productService.createProductCategory(newCategory, productCategory);
-			else
-				prodCatDAO.save(productCategory);
-			
-			if(!isNullOrEmpty(model.getBrand())) {
-			
-				Brand brand = productService.createBrand(model);
-				productService.createProduct(brand, productCategory, model, model.getFiles());
-			}
-			else 
-				productService.createProduct(productCategory, model, model.getFiles());
+		productCategory = saveCategory(productCategory, newCategory);
+		saveProduct(productCategory);
 	}
 
+	private ProductCategory saveCategory(ProductCategory productCategory, String newCategory) {
+		
+		if(!isNullOrEmpty(newCategory))
+			productCategory = productService.createProductCategory(newCategory, productCategory);
+		else
+			prodCatDAO.save(productCategory);
+		
+		return productCategory;
+	}
+
+	private void saveProduct(ProductCategory productCategory) throws IOException {
+		
+		if(!isNullOrEmpty(model.getBrand())) {
+		
+			Brand brand = productService.createBrand(model);
+			productService.createProduct(brand, productCategory, model, model.getFiles());
+		}
+		else 
+			productService.createProduct(productCategory, model, model.getFiles());
+	}
+	
 	public List<String> brandSearch(String potentialBrand) {
 		return productDAO.getProductBrands(potentialBrand);
 	}
