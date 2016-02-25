@@ -14,13 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.dmcliver.donateme.RequestLocaleFaultCodes.CategoryRequired;
+import static com.dmcliver.donateme.RequestLocaleFaultCodes.ProductImageSaveError;
+import static com.dmcliver.donateme.RequestLocaleFaultCodes.ProductSaveError;
 import static com.dmcliver.donateme.StringExt.isNullOrEmpty;
 import static com.dmcliver.donateme.WebConstants.Strings.*;
-import static com.dmcliver.donateme.WebConstants.Messages.*;
-
 import java.io.IOException;
 import java.util.List;
 
+import com.dmcliver.donateme.CommonCheckedException;
 import com.dmcliver.donateme.builders.TreeNodeBuilder;
 import com.dmcliver.donateme.controller.helpers.ModelContainer;
 import com.dmcliver.donateme.controller.helpers.ModelValidationMessages;
@@ -91,7 +93,12 @@ public class ProductUploadControllerBean {
 		}
 		catch (IOException ex) {
 			
-			validatorMessages.add("ProductImageSaveError");
+			validatorMessages.add(ProductImageSaveError);
+			return "uploadProduct";
+		}
+		catch (CommonCheckedException ex) {
+
+			validatorMessages.add(ProductSaveError);
 			return "uploadProduct";
 		}
 		
@@ -100,14 +107,14 @@ public class ProductUploadControllerBean {
 		return "confirm";
 	}
 
-	@Transactional
-	private void saveNewProduct(ProductCategory productCategory, String newCategory) throws IOException {
+	@Transactional(rollbackFor = CommonCheckedException.class)
+	private void saveNewProduct(ProductCategory productCategory, String newCategory) throws IOException, CommonCheckedException {
 
 		productCategory = saveCategory(productCategory, newCategory);
 		saveProduct(productCategory);
 	}
 
-	private ProductCategory saveCategory(ProductCategory productCategory, String newCategory) {
+	private ProductCategory saveCategory(ProductCategory productCategory, String newCategory) throws CommonCheckedException {
 		
 		if(!isNullOrEmpty(newCategory))
 			productCategory = productService.createProductCategory(newCategory, productCategory);
@@ -117,7 +124,7 @@ public class ProductUploadControllerBean {
 		return productCategory;
 	}
 
-	private void saveProduct(ProductCategory productCategory) throws IOException {
+	private void saveProduct(ProductCategory productCategory) throws IOException, CommonCheckedException {
 		
 		if(!isNullOrEmpty(model.getBrand())) {
 		

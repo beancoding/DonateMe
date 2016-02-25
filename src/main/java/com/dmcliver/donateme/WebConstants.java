@@ -14,10 +14,9 @@ public class WebConstants {
 		public static final String ADMIN = "Admin";
 	}
 
-	public static class Messages {
+	public static class LogMessages {
 		
 		public static final String LoggingOutWhenNotLoggedIn = "Some one is trying to log out, when not logged in";
 		public static final String MalformedURLError = "The filename: %s is malformed and hence bad and invalid.";
-		public static final String CategoryRequired = "CategoryRequired";
 	}
 }

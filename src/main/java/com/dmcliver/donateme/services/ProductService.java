@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.primefaces.model.UploadedFile;
 
+import com.dmcliver.donateme.CommonCheckedException;
 import com.dmcliver.donateme.domain.Brand;
 import com.dmcliver.donateme.domain.Product;
 import com.dmcliver.donateme.domain.ProductCategory;
@@ -13,9 +14,9 @@ import com.dmcliver.donateme.models.ProductModel;
 
 public interface ProductService {
 
-	ProductCategory createProductCategory(String newCategory, ProductCategory parent);
-	Brand createBrand(ProductModel model);
-	Product createProduct(ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException;
-	Product createProduct(Brand brand, ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException;
-	Product createProduct(ProductCategory productCategory, ProductModel model);
+	ProductCategory createProductCategory(String newCategory, ProductCategory parent) throws CommonCheckedException;
+	Brand createBrand(ProductModel model) throws CommonCheckedException;
+	Product createProduct(ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException, CommonCheckedException;
+	Product createProduct(Brand brand, ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException, CommonCheckedException;
+	Product createProduct(ProductCategory productCategory, ProductModel model) throws CommonCheckedException;
 }

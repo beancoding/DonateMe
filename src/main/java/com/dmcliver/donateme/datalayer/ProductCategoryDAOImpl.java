@@ -10,22 +10,33 @@ import static org.hibernate.sql.JoinType.RIGHT_OUTER_JOIN;
 
 import java.util.List;
 import java.util.UUID;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dmcliver.donateme.CommonCheckedException;
+import com.dmcliver.donateme.LoggingFactory;
 import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 
 @Repository
 public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 
-	@Autowired
 	private SessionFactory sessionFactory;
+	private Logger logger;
 
+	@Autowired
+	public ProductCategoryDAOImpl(SessionFactory sessionFactory, LoggingFactory logFac) {
+		
+		this.sessionFactory = sessionFactory;
+		logger = logFac.create(ProductCategoryDAOImpl.class);
+	}
+	
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public List<ProductCategory> getTopLevelCategories() {
@@ -108,11 +119,19 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	}
 
 	@Override
-	@Transactional
-	public void save(ProductCategory productCategory) {
+	@Transactional(rollbackFor = CommonCheckedException.class)
+	public void save(ProductCategory productCategory) throws CommonCheckedException {
 		
-		Session session = sessionFactory.getCurrentSession();
-		session.save(productCategory);
+		try {
+			
+			Session session = sessionFactory.getCurrentSession();
+			session.save(productCategory);
+		} 
+		catch (Exception ex) {
+			
+			logger.error("Could not save productCategory", ex);
+			throw new CommonCheckedException(ex);
+		}
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package com.dmcliver.donateme.builder.tests;
 
-import static com.dmcliver.donateme.WebConstants.Messages.MalformedURLError;
+import static com.dmcliver.donateme.WebConstants.LogMessages.MalformedURLError;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.*;
 

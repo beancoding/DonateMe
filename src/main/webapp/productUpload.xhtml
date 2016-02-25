@@ -16,7 +16,7 @@
     	
     	<h:form id="prodForm">
 
-			<h:messages/>
+		<h:messages/>
 
     		<br/>
     		brand
@@ -29,21 +29,28 @@
     			<f:validateLength minimum="3"/>
     		</h:inputText>
     		<h:message for="prodMod"/><br/>
-    		
-    		<p:tree value="#{productControllerBean.model.root}" selectionMode="single" var="node" dynamic="true">
-	    	
-			    <p:ajax event="expand" update="@this" listener="#{productUploadControllerBean.onTreeExpand}" />   
-			    <p:ajax event="select" listener="#{productUploadControllerBean.onTreeSelect}"/> 
-			    
-			    <p:treeNode>
-		            <h:outputText value="#{node}" />
-		        </p:treeNode>
-		        
-	    	</p:tree><br/>
+
+		<p:tree value="#{productControllerBean.model.root}"
+			selectionMode="single" var="node" dynamic="true">
+
+			<p:ajax event="expand" update="@this"
+				listener="#{productUploadControllerBean.onTreeExpand}" />
+			<p:ajax event="select"
+				listener="#{productUploadControllerBean.onTreeSelect}" />
+
+			<p:treeNode>
+				<h:outputText value="#{node}" />
+			</p:treeNode>
+
+                </p:tree>
+		<br />
 	    	
     		product category<h:inputText value="#{productUploadControllerBean.model.newCategory}"/><br/>
     		
-    		description<h:inputText value="#{productUploadControllerBean.model.description}"/><br/>
+    		description<h:inputText id="prodDesc" value="#{productUploadControllerBean.model.description}" validatorMessage="#{messages.requiredProductModelBrand}">
+    		  <f:validateRequired/>
+    		</h:inputText>
+    		<h:message for="prodDesc"/><br/>
     		
     		<p:fileUpload fileUploadListener="#{productUploadControllerBean.handleFileUpload}" multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png|bmp)$/"/>
     		

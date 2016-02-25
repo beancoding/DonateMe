@@ -1,39 +1,29 @@
 package com.dmcliver.donateme.controller.helpers;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import static javax.faces.context.FacesContext.getCurrentInstance;
-
-import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dmcliver.donateme.ErrorMessageLocator;
+import com.dmcliver.donateme.RequestLocaleFaultCodes;
 
+/**
+ * Adds validation messages to JSF context from an error properties file
+ * @author danielmcliver
+ */
 @Component
 public class ModelValidationMessagesImpl implements ModelValidationMessages {
 
-	@Autowired
-	private ErrorMessageLocator locator;
-
-	public void add(String key) {
-		
-		String message = locator.get(key, getCurrentInstance().getExternalContext().getRequestLocale());
-		getCurrentInstance().addMessage(null, new FacesMessage(message));
+	
+	public void add(RequestLocaleFaultCodes message) {
+		getCurrentInstance().addMessage(null, new FacesMessage(message.toString()));
 	}
 	
-	public void add(Severity level, String summaryKey, String detailKey) {
-		
-		Locale requestLocale = getCurrentInstance().getExternalContext().getRequestLocale();
-		String summary = locator.get(summaryKey, requestLocale);
-		String detail = locator.get(detailKey, requestLocale);
-		getCurrentInstance().addMessage(null, new FacesMessage(level, summary, detail));
-	}
+	public void add(RequestLocaleFaultCodes message, Severity level) {
 	
-	public void add(String summaryKey, String detailKey) {
-		add(SEVERITY_INFO, summaryKey, detailKey);
+		String messageText = message.toString();
+		getCurrentInstance().addMessage(null, new FacesMessage(level, messageText, messageText));
 	}
 }

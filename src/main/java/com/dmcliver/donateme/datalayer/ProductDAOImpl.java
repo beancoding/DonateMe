@@ -5,12 +5,16 @@ import static org.hibernate.criterion.Restrictions.eq;
 import static org.hibernate.criterion.Restrictions.ilike;
 
 import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dmcliver.donateme.CommonCheckedException;
+import com.dmcliver.donateme.LoggingFactory;
 import com.dmcliver.donateme.domain.Brand;
 import com.dmcliver.donateme.domain.Image;
 import com.dmcliver.donateme.domain.Product;
@@ -18,14 +22,29 @@ import com.dmcliver.donateme.domain.Product;
 @Repository
 public class ProductDAOImpl implements ProductDAO {
 
-	@Autowired
 	private SessionFactory sessionFactory;
-	
-	@Transactional
-	public void save(Product product) {
+	private Logger logger;
+
+	@Autowired
+	public ProductDAOImpl(SessionFactory sessionFactory, LoggingFactory loggingFactory) {
 		
-		Session session = sessionFactory.getCurrentSession();
-		session.save(product);
+		this.sessionFactory = sessionFactory;
+		logger = loggingFactory.create(ProductDAOImpl.class);
+	}
+	
+	@Transactional(rollbackFor = CommonCheckedException.class)
+	public void save(Product product) throws CommonCheckedException {
+		
+		try {
+			
+			Session session = sessionFactory.getCurrentSession();
+			session.save(product);
+		}
+		catch (Exception ex) {
+			
+			logger.error("Could not save product", ex);
+			throw new CommonCheckedException(ex);
+		}
 	}
 	
 	@Override
@@ -53,9 +72,17 @@ public class ProductDAOImpl implements ProductDAO {
 							 .uniqueResult();
 	}
 
-	@Transactional
-	public void saveProductBrand(Brand brand) {
-		sessionFactory.getCurrentSession().save(brand);
+	@Transactional(rollbackFor = CommonCheckedException.class)
+	public void saveProductBrand(Brand brand) throws CommonCheckedException {
+		
+		try {
+			sessionFactory.getCurrentSession().save(brand);
+		}
+		catch (Exception ex) {
+			
+			logger.error("Couldn't save brand", ex);
+			throw new CommonCheckedException(ex);
+		}
 	}
 
 	@Override

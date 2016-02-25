@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dmcliver.donateme.DuplicateException;
-import com.dmcliver.donateme.ErrorMessageLocator;
 import com.dmcliver.donateme.LoggingFactory;
 
-import static com.dmcliver.donateme.WebConstants.Messages.LoggingOutWhenNotLoggedIn;
+import static com.dmcliver.donateme.RequestLocaleFaultCodes.DuplicateUser;
+import static com.dmcliver.donateme.WebConstants.LogMessages.LoggingOutWhenNotLoggedIn;
 
 import com.dmcliver.donateme.models.UserModel;
 import com.dmcliver.donateme.services.UserService;
@@ -31,13 +31,11 @@ public class AccountController {
 
 	private UserService userService;
 	private Logger logger;
-	private ErrorMessageLocator errMessService;
 	
 	@Autowired
-	public AccountController(UserService userService, LoggingFactory logFactory, ErrorMessageLocator errorMessageService) {
+	public AccountController(UserService userService, LoggingFactory logFactory) {
 		
 		this.userService = userService;
-		this.errMessService = errorMessageService;
 		this.logger = logFactory.create(getClass());
 	}
 	
@@ -82,7 +80,7 @@ public class AccountController {
 		} 
 		catch (DuplicateException ex) {
 			
-			result.reject("DuplicateUser", errMessService.get("DuplicateUser", locale));
+			result.reject("DuplicateUser", DuplicateUser.toLocale(locale));
 			return "register";
 		}
 		catch(Exception ex) {

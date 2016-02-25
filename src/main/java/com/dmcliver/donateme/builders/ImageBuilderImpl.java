@@ -1,7 +1,7 @@
 package com.dmcliver.donateme.builders;
 
 import static java.util.UUID.randomUUID;
-import static com.dmcliver.donateme.WebConstants.Messages.MalformedURLError;
+import static com.dmcliver.donateme.WebConstants.LogMessages.MalformedURLError;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;

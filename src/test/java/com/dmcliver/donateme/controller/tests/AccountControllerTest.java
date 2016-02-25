@@ -1,5 +1,6 @@
 package com.dmcliver.donateme.controller.tests;
 
+import static com.dmcliver.donateme.RequestLocaleFaultCodes.DuplicateUser;
 import static org.mockito.Mockito.*;
 
 import java.util.Locale;
@@ -14,7 +15,6 @@ import org.slf4j.Logger;
 import org.springframework.validation.BindingResult;
 
 import com.dmcliver.donateme.DuplicateException;
-import com.dmcliver.donateme.ErrorMessageLocator;
 import com.dmcliver.donateme.LoggingFactory;
 import com.dmcliver.donateme.WebConstants;
 import com.dmcliver.donateme.controllers.AccountController;
@@ -29,7 +29,6 @@ public class AccountControllerTest {
 	@Mock private UserService userService;
 	@Mock private BindingResult result;
 	@Mock private LoggingFactory logFactory;
-	@Mock private ErrorMessageLocator errorMessageService;
 	
 	@Test
 	public void register_WithNoErrors_SavesUser() throws Exception {
@@ -38,7 +37,7 @@ public class AccountControllerTest {
 		
 		when(result.hasErrors()).thenReturn(false);
 		
-		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		AccountController controller = new AccountController(userService, logFactory);
 		controller.register(model, result, Locale.getDefault());
 		
 		verify(userService).save(model);
@@ -51,7 +50,7 @@ public class AccountControllerTest {
 
 		when(result.hasErrors()).thenReturn(false);
 		
-		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		AccountController controller = new AccountController(userService, logFactory);
 		controller.register(model, result, Locale.getDefault());
 		
 		verify(userService, times(0)).save(model);
@@ -65,7 +64,7 @@ public class AccountControllerTest {
 		
 		when(result.hasErrors()).thenReturn(true);
 		
-		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		AccountController controller = new AccountController(userService, logFactory);
 		controller.register(model, result, Locale.getDefault());
 		
 		verify(userService, times(0)).save(model);
@@ -74,17 +73,15 @@ public class AccountControllerTest {
 	@Test
 	public void register_WithSaveError_AddsRejectionErrorAndReturnsToSamePage() throws Exception {
 		
-		final String errorMessage = "Come on be more inventive";
 		final String errorCode = "DuplicateUser";
 		Locale locale = Locale.getDefault();
 		
 		doThrow(new DuplicateException(null)).when(userService).save(any(UserModel.class));
-		when(errorMessageService.get(errorCode, locale)).thenReturn(errorMessage);
 		
-		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		AccountController controller = new AccountController(userService, logFactory);
 		controller.register(buildUserModel("Password"), result, locale);
 		
-		verify(result).reject(errorCode, errorMessage);
+		verify(result).reject(errorCode, DuplicateUser.toString());
 	}
 	
 	@Test
@@ -95,10 +92,10 @@ public class AccountControllerTest {
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		
-		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		AccountController controller = new AccountController(userService, logFactory);
 		controller.logout(request);
 
-		verify(logger).info(WebConstants.Messages.LoggingOutWhenNotLoggedIn);
+		verify(logger).info(WebConstants.LogMessages.LoggingOutWhenNotLoggedIn);
 	}
 	
 	@Test
@@ -112,7 +109,7 @@ public class AccountControllerTest {
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		when(request.getSession(false)).thenReturn(session);
 		
-		AccountController controller = new AccountController(userService, logFactory, errorMessageService);
+		AccountController controller = new AccountController(userService, logFactory);
 		controller.logout(request);
 
 		verify(logger, never()).info(anyString());

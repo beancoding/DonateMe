@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dmcliver.donateme.CommonCheckedException;
 import com.dmcliver.donateme.builders.BrandBuildResult;
 import com.dmcliver.donateme.builders.BrandBuilder;
 import com.dmcliver.donateme.builders.ImageBuilder;
@@ -43,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductCategory createProductCategory(String newCategory, ProductCategory parent) {
+	public ProductCategory createProductCategory(String newCategory, ProductCategory parent) throws CommonCheckedException {
 
 		ProductCategory category = prodCatDAO.getCategory(newCategory);
 		if(category != null)
@@ -56,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional
-	public Brand createBrand(ProductModel model) {
+	public Brand createBrand(ProductModel model) throws CommonCheckedException {
 		
 		BrandBuildResult brandResult = brandBuilder.build(model);
 		
@@ -69,14 +70,14 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product createProduct(Brand brand, ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException {
+	public Product createProduct(Brand brand, ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException, CommonCheckedException {
 		
 		productBuilder.with(brand);
 		return createProduct(productCategory, model, files);
 	}
 	
 	@Override
-	public Product createProduct(ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException {
+	public Product createProduct(ProductCategory productCategory, ProductModel model, List<UploadedFile> files) throws MalformedURLException, IOException, CommonCheckedException {
 		
 		Product createdProduct = createProduct(productCategory, model);
 		
@@ -87,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Product createProduct(ProductCategory productCategory, ProductModel model) {
+	public Product createProduct(ProductCategory productCategory, ProductModel model) throws CommonCheckedException {
 		
 		Product product = productBuilder.build(productCategory, model);
 		productDAO.save(product);
