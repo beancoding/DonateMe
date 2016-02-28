@@ -12,13 +12,12 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.dmcliver.donateme.RequestLocaleFaultCodes.CategoryRequired;
 import static com.dmcliver.donateme.RequestLocaleFaultCodes.ProductImageSaveError;
 import static com.dmcliver.donateme.RequestLocaleFaultCodes.ProductSaveError;
-import static com.dmcliver.donateme.StringExt.isNullOrEmpty;
 import static com.dmcliver.donateme.WebConstants.Strings.*;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -28,11 +27,9 @@ import com.dmcliver.donateme.controller.helpers.ModelContainer;
 import com.dmcliver.donateme.controller.helpers.ModelValidationMessages;
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
 import com.dmcliver.donateme.datalayer.ProductDAO;
-import com.dmcliver.donateme.domain.Brand;
 import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.models.ProductModel;
 import com.dmcliver.donateme.models.TreeModel;
-import com.dmcliver.donateme.services.ProductService;
 
 @Component
 @ViewScoped
@@ -47,14 +44,14 @@ public class ProductUploadControllerBean {
 	
 	private TreeNodeBuilder treeBuilder;
 	private ModelValidationMessages validatorMessages;
-	private ProductService productService;
+	private ProductCoordinator productCoordinator;
 
 	@Autowired
-	public ProductUploadControllerBean(ModelContainer modelContainer, ProductDAO productDAO, ProductCategoryDAO prodCatDAO, TreeNodeBuilder treeBuilder, ModelValidationMessages validatorMessages, ProductService productService) {
-		this(modelContainer, productDAO, prodCatDAO, treeBuilder, validatorMessages, new ProductModel(), productService);
+	public ProductUploadControllerBean(ModelContainer modelContainer, ProductDAO productDAO, ProductCategoryDAO prodCatDAO, TreeNodeBuilder treeBuilder, ModelValidationMessages validatorMessages, ProductCoordinator productCoordinator) {
+		this(modelContainer, productDAO, prodCatDAO, treeBuilder, validatorMessages, new ProductModel(), productCoordinator);
 	}
 
-	public ProductUploadControllerBean(ModelContainer modelContainer, ProductDAO productDAO, ProductCategoryDAO prodCatDAO, TreeNodeBuilder treeBuilder, ModelValidationMessages validatorMessages, ProductModel model, ProductService productService) {
+	public ProductUploadControllerBean(ModelContainer modelContainer, ProductDAO productDAO, ProductCategoryDAO prodCatDAO, TreeNodeBuilder treeBuilder, ModelValidationMessages validatorMessages, ProductModel model, ProductCoordinator productCoordinator) {
 		
 		this.modelContainer = modelContainer;
 		this.productDAO = productDAO;
@@ -62,7 +59,7 @@ public class ProductUploadControllerBean {
 		this.treeBuilder = treeBuilder;
 		this.validatorMessages = validatorMessages;
 		this.model = model;
-		this.productService = productService;
+		this.productCoordinator = productCoordinator;
 	}
 	
 	@PostConstruct
@@ -79,60 +76,34 @@ public class ProductUploadControllerBean {
 	
 	public String save() {
 		
+		final String nosuccessPage = "productUpload";
+
 		ProductCategory productCategory = model.getProductCategory();
 		String newCategory = model.getNewCategory();
 
 		if(productCategory == null && BLANK.equals(newCategory)) {
 		
 			validatorMessages.add(CategoryRequired);
-			return "uploadProduct";
+			return nosuccessPage;
 		}
 		
 		try {
-			saveNewProduct(productCategory, newCategory);
+			productCoordinator.saveNewProduct(productCategory, model);
 		}
 		catch (IOException ex) {
 			
 			validatorMessages.add(ProductImageSaveError);
-			return "uploadProduct";
+			return nosuccessPage;
 		}
 		catch (CommonCheckedException ex) {
 
 			validatorMessages.add(ProductSaveError);
-			return "uploadProduct";
+			return nosuccessPage;
 		}
 		
 		modelContainer.add(model, "model");
 		
 		return "confirm";
-	}
-
-	@Transactional(rollbackFor = CommonCheckedException.class)
-	private void saveNewProduct(ProductCategory productCategory, String newCategory) throws IOException, CommonCheckedException {
-
-		productCategory = saveCategory(productCategory, newCategory);
-		saveProduct(productCategory);
-	}
-
-	private ProductCategory saveCategory(ProductCategory productCategory, String newCategory) throws CommonCheckedException {
-		
-		if(!isNullOrEmpty(newCategory))
-			productCategory = productService.createProductCategory(newCategory, productCategory);
-		else
-			prodCatDAO.save(productCategory);
-		
-		return productCategory;
-	}
-
-	private void saveProduct(ProductCategory productCategory) throws IOException, CommonCheckedException {
-		
-		if(!isNullOrEmpty(model.getBrand())) {
-		
-			Brand brand = productService.createBrand(model);
-			productService.createProduct(brand, productCategory, model, model.getFiles());
-		}
-		else 
-			productService.createProduct(productCategory, model, model.getFiles());
 	}
 	
 	public List<String> brandSearch(String potentialBrand) {

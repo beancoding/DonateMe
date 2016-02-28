@@ -1,5 +1,6 @@
 package com.dmcliver.donateme.datalayer;
 
+import static com.dmcliver.donateme.StringExt.mapObjToJSON;
 import static java.util.stream.Collectors.toList;
 import static org.hibernate.criterion.Projections.count;
 import static org.hibernate.criterion.Projections.groupProperty;
@@ -52,15 +53,12 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	 */
 	@Override
 	@Transactional
+	@SuppressWarnings("unchecked")
 	public List<ProductCategoryAggregate> getTopLevelInfo() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		List<?> result = buildQuery(session).add(isNull("pc2.parentProductCategory")).list();
-		return map(safeCast(Object[].class, result));
-	}
-	
-	private static <T> List<T> safeCast(Class<T> cls, List<?> l) {
-		return l.stream().map(x -> (T)x).collect(toList());
+		return map((List<Object[]>) result);
 	}
 	
 	/**
@@ -68,6 +66,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 	 */
 	@Override
 	@Transactional
+	@SuppressWarnings("unchecked")
 	public List<ProductCategoryAggregate> getChildCategories(UUID parentId) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -76,7 +75,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 											.add(eq("gpc.productCategoryId", parentId))
 										    .list();
 		
-		return map(result.stream().map(x -> (Object[])x).collect(toList()));
+		return map((List<Object[]>) result);
 	}
 	
 	/**
@@ -129,7 +128,7 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 		} 
 		catch (Exception ex) {
 			
-			logger.error("Could not save productCategory", ex);
+			logger.error("Could not save productCategory: " + mapObjToJSON(productCategory), ex);
 			throw new CommonCheckedException(ex);
 		}
 	}

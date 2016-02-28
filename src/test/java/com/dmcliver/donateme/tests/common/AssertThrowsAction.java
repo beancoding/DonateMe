@@ -1,4 +1,4 @@
-package com.dmcliver.tests;
+package com.dmcliver.donateme.tests.common;
 
 public interface AssertThrowsAction {
 	

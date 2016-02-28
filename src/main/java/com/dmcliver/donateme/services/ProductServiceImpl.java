@@ -7,8 +7,6 @@ import java.util.List;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.dmcliver.donateme.CommonCheckedException;
 import com.dmcliver.donateme.builders.BrandBuildResult;
 import com.dmcliver.donateme.builders.BrandBuilder;
@@ -56,7 +54,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	@Transactional
 	public Brand createBrand(ProductModel model) throws CommonCheckedException {
 		
 		BrandBuildResult brandResult = brandBuilder.build(model);

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModelContainerImpl implements ModelContainer {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void add(Object data, String key) {
 		getRequestMap().put(key, data);

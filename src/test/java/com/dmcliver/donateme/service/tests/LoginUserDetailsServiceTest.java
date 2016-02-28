@@ -1,7 +1,7 @@
 package com.dmcliver.donateme.service.tests;
 
 import static com.dmcliver.donateme.domain.Role.ADMIN;
-import static com.dmcliver.tests.Assertions.assertThrows;
+import static com.dmcliver.donateme.tests.common.Assertions.assertThrows;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;

@@ -1,4 +1,4 @@
-package com.dmcliver.tests;
+package com.dmcliver.donateme.tests;
 
 import static com.dmcliver.donateme.RequestLocaleFaultCodes.ProductSaveError;
 import static org.hamcrest.CoreMatchers.is;
