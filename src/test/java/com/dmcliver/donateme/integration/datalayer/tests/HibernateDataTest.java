@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.domain.User;
 
+@Component
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(defaultRollback = false)
 @ContextConfiguration("classpath:/servlet-context.xml")
@@ -57,11 +59,7 @@ public class HibernateDataTest {
 		session.save(user);
 	}
 	
-	/**
-	 * To allow maven build to complete when tests are commented out.
-	 */
+	/** To allow maven build to complete when tests are commented out. */
 	@Test
-	public void test() {
-		
-	}
+	public void test() {}
 }
