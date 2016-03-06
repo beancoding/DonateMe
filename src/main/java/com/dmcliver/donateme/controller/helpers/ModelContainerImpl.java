@@ -13,20 +13,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModelContainerImpl implements ModelContainer {
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public void add(Object data, String key) {
 		getRequestMap().put(key, data);
 	}
 	
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T get(String key) {
 		return (T)getRequestMap().get(key);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public long getId(String idName) {
 		
@@ -34,6 +34,7 @@ public class ModelContainerImpl implements ModelContainer {
 		return value == null ? -1 : parseLong(idName);
 	}
 	
+	/** {@inheritDoc} */
 	@Override
 	public UUID getUUID(String uuidName) {
 		
@@ -41,14 +42,14 @@ public class ModelContainerImpl implements ModelContainer {
 		return value == null ? null : UUID.fromString(value);
 	}
 	
+	private static Map<String, Object> getRequestMap() {
+		return getExternalContext().getRequestMap();
+	}
+	
 	private static Map<String, String> getRequestParameterMap() {
 		return getExternalContext().getRequestParameterMap();
 	}
 	
-	private static Map<String, Object> getRequestMap() {
-		return getExternalContext().getRequestMap();
-	}
-
 	private static ExternalContext getExternalContext() {
 		return getCurrentInstance().getExternalContext();
 	}
