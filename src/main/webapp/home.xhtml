@@ -35,7 +35,9 @@
 	    	</p:panelGrid>
 
 			<ui:repeat var="prod" value="{homeControllerBean.products}">
-				<h:outputText value="#{prod.model}"/>
+				<div>
+					<h:outputText value="#{prod.model}"/>
+				</div>
 			</ui:repeat>
 
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
