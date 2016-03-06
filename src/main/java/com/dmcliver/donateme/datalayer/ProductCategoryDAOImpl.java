@@ -1,5 +1,8 @@
 package com.dmcliver.donateme.datalayer;
 
+import static com.dmcliver.donateme.Props.as;
+import static com.dmcliver.donateme.Props.from;
+import static com.dmcliver.donateme.StringExt.concat;
 import static com.dmcliver.donateme.StringExt.mapObjToJSON;
 import static java.util.stream.Collectors.toList;
 import static org.hibernate.criterion.Projections.count;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dmcliver.donateme.CommonCheckedException;
 import com.dmcliver.donateme.LoggingFactory;
+import com.dmcliver.donateme.domain.Product;
 import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 
@@ -145,5 +149,22 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 							 				   .add(eq("productCategoryName", newCategory).ignoreCase())
 							 				   .setMaxResults(1)
 							 				   .uniqueResult();
+	}
+
+	@Override
+	@Transactional
+	@SuppressWarnings("unchecked")
+	public List<Product> getProducts(UUID prodCatId) {
+		
+		Product prod = from(Product.class);
+		ProductCategory prodCat = from(ProductCategory.class);
+
+		String pc = "prodCat";
+
+		Session session = sessionFactory.getCurrentSession();
+		return session.createCriteria(Product.class)
+					  .createAlias(as(prod.getProductCategory()), pc)
+					  .add(eq(concat(pc, ".", as(prodCat.getProductCategoryId())), prodCatId))
+					  .list();
 	}
 }

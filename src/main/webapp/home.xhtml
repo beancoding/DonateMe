@@ -24,7 +24,7 @@
 		    	<p:tree value="#{homeControllerBean.categories}" selectionMode="single" var="node" dynamic="true">
 		    	
 				    <p:ajax event="expand" update="@this" listener="#{homeControllerBean.onTreeExpand}" />   
-				    <p:ajax event="select" update=":form1:myNotice" listener="#{homeControllerBean.onSelect}"/> 
+				    <p:ajax event="select" update=":form1:myNotice,:form1:prodList" listener="#{homeControllerBean.onSelect}"/> 
 				    
 				    <p:treeNode>
 			            <h:outputText value="#{node}" />
@@ -33,6 +33,12 @@
 		    	</p:tree>
 	    	
 	    	</p:panelGrid>
+
+			<h:dataTable id="prodList" value="#{homeControllerBean.products}" var="prod">
+				<h:column>
+					<h:outputText value="#{prod.model}"/>
+				</h:column>
+			</h:dataTable>
 	    	
 	    	<p:commandButton value="Send message" ajax="true" update=":form1:myNotice" action="#{homeControllerBean.updateMessage}"/>
 	    	

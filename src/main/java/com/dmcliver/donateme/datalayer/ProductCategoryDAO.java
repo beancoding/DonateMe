@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.dmcliver.donateme.CommonCheckedException;
+import com.dmcliver.donateme.domain.Product;
 import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 
@@ -29,5 +30,7 @@ public interface ProductCategoryDAO {
 	 * @return The category or null if none found
 	 */
 	ProductCategory getCategory(String newCategory);
+
+	List<Product> getProducts(UUID prodCatId);
 }
 

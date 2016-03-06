@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-
 public class StringExt {
 	
 	public static final String BLANK = "";
@@ -22,5 +21,15 @@ public class StringExt {
 		catch (IOException e) {}
 		
 		return jsonObj;
+	}
+	
+	public static String concat(String... text) {
+		
+		String all = BLANK;
+		
+		for (String someText : text) 
+			all += someText;
+		
+		return all;
 	}
 }

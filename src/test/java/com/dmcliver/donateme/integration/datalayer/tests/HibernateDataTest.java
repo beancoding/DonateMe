@@ -1,4 +1,4 @@
-package com.dmcliver.donateme.datalayer.tests;
+package com.dmcliver.donateme.integration.datalayer.tests;
 
 import static com.dmcliver.donateme.domain.Role.ADMIN;
 import static java.util.UUID.randomUUID;

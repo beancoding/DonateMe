@@ -3,6 +3,7 @@ package com.dmcliver.donateme.controllers;
 import static com.dmcliver.donateme.WebConstants.Strings.TREE_ROOT;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.dmcliver.donateme.builders.TreeNodeBuilder;
 import com.dmcliver.donateme.datalayer.ProductCategoryDAO;
+import com.dmcliver.donateme.domain.Product;
 import com.dmcliver.donateme.domain.ProductCategoryAggregate;
 import com.dmcliver.donateme.models.TreeModel;
 
@@ -28,6 +30,8 @@ public class HomeControllerBean {
 	private TreeNodeBuilder builder;
 
 	private String notice = "no notice";
+
+	private List<Product> products;
 
 	@Autowired
 	public HomeControllerBean(ProductCategoryDAO prodCatDAO, TreeNodeBuilder builder) {
@@ -75,7 +79,11 @@ public class HomeControllerBean {
 	
 	//Notice/Get/Id
 	public void onSelect(NodeSelectEvent event) {
-		notice = "Selected " + event.getTreeNode().getData();
+		
+		TreeModel data = (TreeModel)event.getTreeNode().getData();
+		notice = "Selected " + data;
+		UUID prodCatId = data.getProductCategoryId();
+		products = prodCatDAO.getProducts(prodCatId);
 	}
 	
 	//Notice/Post
@@ -83,5 +91,9 @@ public class HomeControllerBean {
 		
 		notice = "Button fired";
 		return "uploadProduct";
+	}
+	
+	public List<Product> getProducts() {
+		return products;
 	}
 }
