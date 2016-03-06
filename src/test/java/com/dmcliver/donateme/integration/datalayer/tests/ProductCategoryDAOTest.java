@@ -34,7 +34,7 @@ public class ProductCategoryDAOTest extends DAOTestBase {
 		
 		ProductCategoryAggregate data = topLevelCount.get(0);
 		
-		assertThat(topLevelCount.size(), allOf(greaterThanOrEqualTo(1), lessThanOrEqualTo(2)));
+		assertThat(topLevelCount.size(), either(is(1)).or(is(2)));
 		assertThat(data.getProductCategoryName(), is("GrandParent"));
 		assertThat(data.getChildCount(), is(1L));
 	}
