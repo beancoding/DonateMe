@@ -2,9 +2,11 @@ package com.dmcliver.donateme.controllers;
 
 import static com.dmcliver.donateme.WebConstants.Strings.TREE_ROOT;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.event.NodeExpandEvent;
@@ -38,6 +40,11 @@ public class HomeControllerBean {
 		
 		this.prodCatDAO = prodCatDAO;
 		this.builder = builder;
+	}
+	
+	@PostConstruct
+	public void init() {
+		products = new ArrayList<Product>();
 	}
 	
 	//Tree/Get
@@ -83,7 +90,8 @@ public class HomeControllerBean {
 		TreeModel data = (TreeModel)event.getTreeNode().getData();
 		notice = "Selected " + data;
 		UUID prodCatId = data.getProductCategoryId();
-		products = prodCatDAO.getProducts(prodCatId);
+		products.clear();
+		products.addAll(prodCatDAO.getProducts(prodCatId));
 	}
 	
 	//Notice/Post

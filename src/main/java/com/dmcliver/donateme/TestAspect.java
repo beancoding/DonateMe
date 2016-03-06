@@ -1,13 +1,12 @@
-package com.dmcliver.donateme.integration.tests;
+package com.dmcliver.donateme;
 
-import static com.dmcliver.donateme.integration.tests.ProductCoordinatorTest.*;
+import static com.dmcliver.donateme.WebConstants.*;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
-import com.dmcliver.donateme.CommonCheckedException;
 import com.dmcliver.donateme.models.ProductModel;
 
 /**
@@ -37,6 +36,7 @@ public class TestAspect {
 		
 		if(
 			productModel == null || !(
+					
 				modelName.equals(productModel.getModelName()) &&
 				description.equals(productModel.getDescription()) &&
 				brand.equals(productModel.getBrand()) &&

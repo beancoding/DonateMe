@@ -1,7 +1,21 @@
 package com.dmcliver.donateme;
 
+import static java.util.UUID.randomUUID;
+
+import com.dmcliver.donateme.integration.tests.ProductCoordinatorTest;
+
 public class WebConstants {
 
+	/**
+	 * Unique model properties used for A.O.P test join-point cut to join on
+	 * @see TestAspect
+	 * @see ProductCoordinatorTest
+	 */
+	public static final String modelName = randomUUID().toString();
+	public static final String description = randomUUID().toString();
+	public static final String newCategory = randomUUID().toString();
+	public static final String brand = randomUUID().toString();
+	
 	public static class Strings {
 		
 		public static final String BLANK = "";

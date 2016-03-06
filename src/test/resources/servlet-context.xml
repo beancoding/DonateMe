@@ -16,7 +16,7 @@
 	
 	<context:annotation-config/>
 	
-	<beans:bean id="testAspect" class="com.dmcliver.donateme.integration.tests.TestAspect"/>
+	<beans:bean id="testAspect" class="com.dmcliver.donateme.TestAspect"/>
 	
         <aop:aspectj-autoproxy/>
 	

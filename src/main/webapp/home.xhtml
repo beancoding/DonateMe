@@ -24,7 +24,7 @@
 		    	<p:tree value="#{homeControllerBean.categories}" selectionMode="single" var="node" dynamic="true">
 		    	
 				    <p:ajax event="expand" update="@this" listener="#{homeControllerBean.onTreeExpand}" />   
-				    <p:ajax event="select" update=":form1:myNotice,:form1:prodList" listener="#{homeControllerBean.onSelect}"/> 
+				    <p:ajax event="select" immediate="true" update=":form1:myNotice :form1:prodList" listener="#{homeControllerBean.onSelect}"/> 
 				    
 				    <p:treeNode>
 			            <h:outputText value="#{node}" />
@@ -34,11 +34,13 @@
 	    	
 	    	</p:panelGrid>
 
-			<ui:repeat var="prod" value="{homeControllerBean.products}">
-				<div>
-					<h:outputText value="#{prod.model}"/>
-				</div>
-			</ui:repeat>
+			<p:panelGrid id="prodList">
+	  			<ui:repeat  var="prod" value="#{homeControllerBean.products}">
+					<div>
+						<h:outputText value="#{prod.model}"/>
+					</div>
+				</ui:repeat>
+			</p:panelGrid>
 
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	    	
