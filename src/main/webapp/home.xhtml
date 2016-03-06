@@ -34,14 +34,10 @@
 	    	
 	    	</p:panelGrid>
 
-			<h:dataTable id="prodList" value="#{homeControllerBean.products}" var="prod">
-				<h:column>
-					<h:outputText value="#{prod.model}"/>
-				</h:column>
-			</h:dataTable>
-	    	
-	    	<p:commandButton value="Send message" ajax="true" update=":form1:myNotice" action="#{homeControllerBean.updateMessage}"/>
-	    	
+			<ui:repeat var="prod" value="{homeControllerBean.products}">
+				<h:outputText value="#{prod.model}"/>
+			</ui:repeat>
+
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	    	
     	</h:form>
