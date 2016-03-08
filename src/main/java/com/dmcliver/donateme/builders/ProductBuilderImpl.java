@@ -18,11 +18,7 @@ public class ProductBuilderImpl implements ProductBuilder {
 	@Override
 	public Product build(ProductCategory category, ProductModel model) {
 		
-		Product product = new Product();
-
-		product.setModel(model.getModelName());
-		product.setDescription(model.getDescription());
-		product.setProductCategory(category);
+		Product product = new Product(model.getModelName(), model.getDescription(), category);
 
 		if(brand != null)
 			product.setBrand(brand);

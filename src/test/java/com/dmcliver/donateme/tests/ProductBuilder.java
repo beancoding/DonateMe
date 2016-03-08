@@ -39,12 +39,9 @@ public class ProductBuilder {
 	
 	public Product build() {
 		
-		Product product = new Product();
+		Product product = new Product(model, description, productCategory);
 			
-		product.setDescription(description);
-		product.setModel(model);
 		product.setProductId(productId);
-		product.setProductCategory(productCategory);
 		product.setBrand(brand);
 		
 		return product;

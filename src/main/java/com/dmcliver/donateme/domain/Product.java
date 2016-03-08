@@ -20,6 +20,16 @@ public class Product {
 	private ProductCategory productCategory;
 	private Brand brand;
 	
+	protected Product() {
+	}
+	
+	public Product(String model, String description, ProductCategory prodCat) {
+		
+		this.model = model;
+		this.description = description;
+		productCategory = prodCat;
+	}
+	
 	@Id
 	@Column(name = "ProductId")
 	@GeneratedValue(generator = "prodIdSeqGen", strategy = GenerationType.SEQUENCE)

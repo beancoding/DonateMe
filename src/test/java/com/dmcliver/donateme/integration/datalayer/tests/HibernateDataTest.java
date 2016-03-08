@@ -2,6 +2,7 @@ package com.dmcliver.donateme.integration.datalayer.tests;
 
 import static com.dmcliver.donateme.domain.Role.ADMIN;
 import static java.util.UUID.randomUUID;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dmcliver.donateme.domain.Product;
 import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.domain.User;
 
@@ -29,7 +31,7 @@ public class HibernateDataTest {
 	@Autowired
 	private PasswordEncoder encoder;
 	
-	//@Test
+	@Test
 	@Transactional
 	public void canGenerateTestProductCategoryDataOk() {
 		
@@ -41,9 +43,13 @@ public class HibernateDataTest {
 		ProductCategory grandChild = new ProductCategory(randomUUID(), "GrandChild");
 		grandChild.setParentProductCategory(child);
 		
+		Product product = new Product("Product1", "First Product", grandChild);
+		
 		session.save(grandParent);
 		session.save(child);
 		session.save(grandChild);
+		
+		session.save(product);
 	}
 	
 	//@Test

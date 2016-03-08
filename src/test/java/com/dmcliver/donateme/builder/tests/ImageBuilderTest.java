@@ -41,7 +41,7 @@ public class ImageBuilderTest {
 		when(uploadedFile.getFileName()).thenReturn(badFileName);
 		
 		ImageBuilderImpl imageBuilder = new ImageBuilderImpl(logFac, fileService);
-		imageBuilder.buildAll(new Product(), asList(uploadedFile));
+		imageBuilder.buildAll(new Product("Model name", "Description", null), asList(uploadedFile));
 
 		verify(logger).error(String.format(MalformedURLError, badFileName), any(MalformedURLException.class));
 	}
@@ -57,6 +57,6 @@ public class ImageBuilderTest {
 		doThrow(IOException.class).when(fileService).write(eq(goodFileName), any(byte[].class));
 		
 		ImageBuilderImpl imageBuilder = new ImageBuilderImpl(logFac, fileService);
-		imageBuilder.buildAll(new Product(), asList(uploadedFile));
+		imageBuilder.buildAll(new Product("Model name", "Description", null), asList(uploadedFile));
 	}
 }
