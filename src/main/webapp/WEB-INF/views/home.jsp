@@ -8,7 +8,7 @@
 	</head>
 	
 	<body>
-	
+
 		<h1>Welcome</h1>
 		
 		<c:forEach items="${names}" var="productName">

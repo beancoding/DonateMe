@@ -12,11 +12,7 @@
     <ui:define name="header">Home</ui:define>
  
     <ui:define name="scripts">
-        <script>
-	        $(document).ready(function() {
-	        	$("[id$='myNotice']").css("color","red");
-	        });
-        </script>
+        <h:outputScript library="js" name="clearProductGrid.js" />
     </ui:define>
  
     <ui:define name="content">
@@ -44,7 +40,7 @@
 
 		<p:panelGrid id="prodList">
   			<ui:repeat var="prod" value="#{homeControllerBean.products}" varStatus="idxItr">
-				<div class="#{(idxItr.index + 1) % 3 == 0?'newRow':'sameRow'}" id="#{'col'.concat(idxItr.index + 1)}">
+				<div class="#{(idxItr.index + 1) % 3 == 0?'newRow':'sameRow'}" gid="prodGrid">
 					<h:outputText value="#{prod.model}"/>
 				</div>
 			</ui:repeat>
