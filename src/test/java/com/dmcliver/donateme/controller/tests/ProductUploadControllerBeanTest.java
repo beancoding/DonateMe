@@ -56,7 +56,7 @@ public class ProductUploadControllerBeanTest {
 			setNewCategory("Yollo");
 		}};
 		
-		doThrow(new CommonCheckedException(new Exception())).when(this.coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model));
+		doThrow(new CommonCheckedException(new Exception())).when(this.coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model), null);
 		
 		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, prodDAO, prodCatDAO, treeBuilder, validMess, model, coordinator);
 		String result = controller.save();
@@ -72,7 +72,7 @@ public class ProductUploadControllerBeanTest {
 			setNewCategory("Yollo");
 		}};
 		
-		doThrow(new IOException(new Exception())).when(this.coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model));
+		doThrow(new IOException(new Exception())).when(this.coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model), null);
 		
 		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, prodDAO, prodCatDAO, treeBuilder, validMess, model, coordinator);
 		String result = controller.save();

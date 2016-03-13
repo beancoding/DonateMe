@@ -25,6 +25,13 @@ public class ProductListing {
 	private LocalDate dateSold;
 	private String description;
 	
+	public ProductListing(UUID id, User user, Product product) {
+		
+		productListingId = id;
+		this.user = user;
+		this.product = product;
+	}
+	
 	@ManyToOne
 	@JoinColumn(name = "UserId", nullable = false)
 	public User getUser() {
@@ -44,7 +51,7 @@ public class ProductListing {
 	}
 	
 	@Id
-	@Type(type="pg-uuid")
+	@Type(type = "pg-uuid")
 	@Column(name = "ProductListingId")
 	public UUID getProductListingId() {
 		return productListingId;
@@ -54,7 +61,7 @@ public class ProductListing {
 	}
 	
 	@Type(type="date")
-	@Column(name = "DateListed", nullable = false)
+	@Column(name = "DateListed")
 	public Date getDateListed() {
 		return Date.valueOf(dateListed);
 	}
@@ -94,7 +101,7 @@ public class ProductListing {
 	}
 	
 	@Transient
-	public void setDateSold(LocalDate date){
+	public void setDateSold(LocalDate date) {
 		dateSold = date;
 	}
 	

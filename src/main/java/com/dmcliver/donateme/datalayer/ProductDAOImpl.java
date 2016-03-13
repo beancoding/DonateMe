@@ -18,6 +18,7 @@ import com.dmcliver.donateme.LoggingFactory;
 import com.dmcliver.donateme.domain.Brand;
 import com.dmcliver.donateme.domain.Image;
 import com.dmcliver.donateme.domain.Product;
+import com.dmcliver.donateme.domain.ProductListing;
 
 @Repository
 public class ProductDAOImpl implements ProductDAO {
@@ -89,5 +90,11 @@ public class ProductDAOImpl implements ProductDAO {
 	@Transactional
 	public void saveProductImage(Image image) {
 		sessionFactory.getCurrentSession().save(image);
+	}
+
+	@Override
+	@Transactional
+	public void save(ProductListing listing) {
+		sessionFactory.getCurrentSession().save(listing);
 	}
 }

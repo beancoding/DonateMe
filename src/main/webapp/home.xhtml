@@ -40,7 +40,7 @@
 
 		<p:panelGrid id="prodList">
   			<ui:repeat var="prod" value="#{homeControllerBean.products}" varStatus="idxItr">
-				<div class="#{(idxItr.index + 1) % 3 == 0?'newRow':'sameRow'}" gid="prodGrid">
+				<div class="#{(idxItr.index + 1) % 3 == 0? 'newRow': 'sameRow'}" grpId="prodGrid">
 					<h:outputText value="#{prod.model}"/>
 				</div>
 			</ui:repeat>

@@ -6,6 +6,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dmcliver.donateme.DuplicateException;
 import com.dmcliver.donateme.datalayer.UserDAO;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Transactional
 	public void save(UserModel model) throws DuplicateException, Exception {
 		
 		String password = passwordEncoder.encode(model.getPassword());
@@ -43,5 +45,12 @@ public class UserServiceImpl implements UserService {
 			else
 				throw ex;
 		}
+	}
+	
+	@Override
+	@Transactional
+	public User getByUserName(String userName) {
+		
+		return sysUserDAO.findByUserName(userName);
 	}
 }

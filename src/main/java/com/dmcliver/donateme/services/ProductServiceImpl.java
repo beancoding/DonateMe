@@ -7,6 +7,7 @@ import java.util.List;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.dmcliver.donateme.CommonCheckedException;
 import com.dmcliver.donateme.builders.BrandBuildResult;
 import com.dmcliver.donateme.builders.BrandBuilder;
@@ -18,6 +19,7 @@ import com.dmcliver.donateme.datalayer.ProductDAO;
 import com.dmcliver.donateme.domain.Brand;
 import com.dmcliver.donateme.domain.Product;
 import com.dmcliver.donateme.domain.ProductCategory;
+import com.dmcliver.donateme.domain.ProductListing;
 import com.dmcliver.donateme.models.ProductModel;
 
 @Service
@@ -90,5 +92,10 @@ public class ProductServiceImpl implements ProductService {
 		Product product = productBuilder.build(productCategory, model);
 		productDAO.save(product);
 		return product;
+	}
+
+	@Override
+	public void saveListing(ProductListing listing) {
+		productDAO.save(listing);
 	}
 }

@@ -6,6 +6,7 @@ import com.dmcliver.donateme.CommonCheckedException;
 import com.dmcliver.donateme.domain.Brand;
 import com.dmcliver.donateme.domain.Image;
 import com.dmcliver.donateme.domain.Product;
+import com.dmcliver.donateme.domain.ProductListing;
 
 public interface ProductDAO {
 
@@ -14,4 +15,5 @@ public interface ProductDAO {
 	Brand getProductBrand(String brand);
 	void saveProductBrand(Brand brand) throws CommonCheckedException;
 	void saveProductImage(Image i);
+	void save(ProductListing listing);
 }

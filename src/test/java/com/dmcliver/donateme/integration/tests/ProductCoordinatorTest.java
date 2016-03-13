@@ -34,7 +34,7 @@ public class ProductCoordinatorTest {
 		ProductModel model = buildProductModel();
 
 		try {
-			coordinator.saveNewProduct(null, model);
+			coordinator.saveNewProduct(null, model, null);
 		} 
 		catch (CommonCheckedException e) {
 			thrown = true;

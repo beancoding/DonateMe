@@ -5,7 +5,6 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.NodeSelectEvent;
@@ -34,7 +33,7 @@ import com.dmcliver.donateme.models.TreeModel;
 @Component
 @ViewScoped
 @ManagedBean
-public class ProductUploadControllerBean {
+public class ProductUploadControllerBean extends ControllerBeanBase {
 	
 	private ProductModel model;
 	private ModelContainer modelContainer;
@@ -88,7 +87,9 @@ public class ProductUploadControllerBean {
 		}
 		
 		try {
-			productCoordinator.saveNewProduct(productCategory, model);
+			
+			String userName = super.getPrincipalUserName();
+			productCoordinator.saveNewProduct(productCategory, model, userName);
 		}
 		catch (IOException ex) {
 			

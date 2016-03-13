@@ -8,5 +8,5 @@ import com.dmcliver.donateme.models.ProductModel;
 
 public interface ProductCoordinator {
 
-	void saveNewProduct(ProductCategory productCategory, ProductModel model) throws IOException, CommonCheckedException;
+	void saveNewProduct(ProductCategory productCategory, ProductModel model, String user) throws IOException, CommonCheckedException;
 }
