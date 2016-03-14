@@ -5,11 +5,7 @@ import javax.faces.context.FacesContext;
 import com.dmcliver.donateme.Overridable;
 
 public abstract class ControllerBeanBase {
-
-	public ControllerBeanBase() {
-		super();
-	}
-
+	
 	@Overridable
 	protected String getPrincipalUserName() {
 		

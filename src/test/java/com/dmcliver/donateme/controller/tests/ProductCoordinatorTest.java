@@ -22,7 +22,7 @@ public class ProductCoordinatorTest {
 
 		ProductService service = mock(ProductService.class);
 		
-		ProductCoordinatorImpl coordinator = new ProductCoordinatorImpl(service, null);
+		ProductCoordinatorImpl coordinator = new ProductCoordinatorImpl(service, null, null);
 		coordinator.saveNewProduct(null, model, null);
 		
 		verify(service).createProductCategory("NewCat", null);
@@ -37,7 +37,7 @@ public class ProductCoordinatorTest {
 
 		ProductService service = mock(ProductService.class);
 		
-		ProductCoordinatorImpl coordinator = new ProductCoordinatorImpl(service, null);
+		ProductCoordinatorImpl coordinator = new ProductCoordinatorImpl(service, null, null);
 		coordinator.saveNewProduct(null, model, null);
 		
 		verify(service, never()).createProductCategory("NewCat", null);
@@ -52,7 +52,7 @@ public class ProductCoordinatorTest {
 
 		ProductService service = mock(ProductService.class);
 		
-		ProductCoordinatorImpl coordinator = new ProductCoordinatorImpl(service, null);
+		ProductCoordinatorImpl coordinator = new ProductCoordinatorImpl(service, null, null);
 		coordinator.saveNewProduct(null, model, null);
 		
 		verify(service).createBrand(model);
@@ -69,7 +69,7 @@ public class ProductCoordinatorTest {
 
 		ProductService service = mock(ProductService.class);
 		
-		ProductCoordinatorImpl coordinator = new ProductCoordinatorImpl(service, null);
+		ProductCoordinatorImpl coordinator = new ProductCoordinatorImpl(service, null, null);
 		coordinator.saveNewProduct(null, model, null);
 		
 		verify(service, never()).createBrand(model);

@@ -5,8 +5,8 @@ import static java.lang.annotation.ElementType.METHOD;
 import java.lang.annotation.Target;
 
 /**
- * Marker annotation to mark that the method is intended to be overriden if needed or wanted to i.e.
- * is equivalent to the virtual keyword in C++
+ * Marker annotation to inform that the method is intended to be overridden if needed or wanted to i.e.
+ * is intended to be similar to the virtual keyword in other programming languages
  * @author danielmcliver
  */
 @Target(METHOD)

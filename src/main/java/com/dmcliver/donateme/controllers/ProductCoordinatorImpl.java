@@ -5,6 +5,7 @@ import static java.util.UUID.randomUUID;
 
 import java.io.IOException;
 import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import com.dmcliver.donateme.domain.ProductCategory;
 import com.dmcliver.donateme.domain.ProductListing;
 import com.dmcliver.donateme.domain.User;
 import com.dmcliver.donateme.models.ProductModel;
+import com.dmcliver.donateme.services.ProductListingService;
 import com.dmcliver.donateme.services.ProductService;
 import com.dmcliver.donateme.services.UserService;
 
@@ -24,12 +26,14 @@ public class ProductCoordinatorImpl implements ProductCoordinator {
 
 	private ProductService productService;
 	private UserService userService;
+	private ProductListingService prodListService;
 
 	@Autowired
-	public ProductCoordinatorImpl(ProductService productService, UserService userService) {
+	public ProductCoordinatorImpl(ProductService productService, UserService userService, ProductListingService prodListService) {
 		
 		this.productService = productService;
 		this.userService = userService;
+		this.prodListService = prodListService;
 	}
 
 	@Override
@@ -43,10 +47,10 @@ public class ProductCoordinatorImpl implements ProductCoordinator {
 
 	private void saveProductListing(String user, Product savedProduct) {
 		
-		User foundUser = this.userService.getByUserName(user);
+		User foundUser = userService.getByUserName(user);
 		ProductListing listing = new ProductListing(randomUUID(), foundUser, savedProduct);
 		listing.setDateListed(LocalDate.now());
-		productService.saveListing(listing);
+		prodListService.saveListing(listing);
 	}
 
 	private ProductCategory saveCategory(ProductCategory productCategory, String newCategory) throws CommonCheckedException {

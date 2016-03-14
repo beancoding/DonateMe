@@ -19,7 +19,6 @@ import com.dmcliver.donateme.datalayer.ProductDAO;
 import com.dmcliver.donateme.domain.Brand;
 import com.dmcliver.donateme.domain.Product;
 import com.dmcliver.donateme.domain.ProductCategory;
-import com.dmcliver.donateme.domain.ProductListing;
 import com.dmcliver.donateme.models.ProductModel;
 
 @Service
@@ -92,10 +91,5 @@ public class ProductServiceImpl implements ProductService {
 		Product product = productBuilder.build(productCategory, model);
 		productDAO.save(product);
 		return product;
-	}
-
-	@Override
-	public void saveListing(ProductListing listing) {
-		productDAO.save(listing);
 	}
 }
