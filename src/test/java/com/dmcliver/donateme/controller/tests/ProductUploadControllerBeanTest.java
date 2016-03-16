@@ -46,7 +46,7 @@ public class ProductUploadControllerBeanTest {
 		String result = controller.save();
 		
 		assertThat(result, is("productUpload"));
-		verify(this.validMess).add(CategoryRequired);
+		verify(validMess).add(CategoryRequired);
 	}
 	
 	@Test
@@ -56,13 +56,13 @@ public class ProductUploadControllerBeanTest {
 			setNewCategory("Yollo");
 		}};
 		
-		doThrow(new CommonCheckedException(new Exception())).when(this.coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model), null);
+		doThrow(new CommonCheckedException(new Exception())).when(this.coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model), eq(null));
 		
 		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, prodDAO, prodCatDAO, treeBuilder, validMess, model, coordinator);
 		String result = controller.save();
 		
 		assertThat(result, is("productUpload"));
-		verify(this.validMess).add(ProductSaveError);
+		verify(validMess).add(ProductSaveError);
 	}
 	
 	@Test
@@ -72,13 +72,13 @@ public class ProductUploadControllerBeanTest {
 			setNewCategory("Yollo");
 		}};
 		
-		doThrow(new IOException(new Exception())).when(this.coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model), null);
+		doThrow(new IOException(new Exception())).when(coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model), eq(null));
 		
 		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, prodDAO, prodCatDAO, treeBuilder, validMess, model, coordinator);
 		String result = controller.save();
 		
 		assertThat(result, is("productUpload"));
-		verify(this.validMess).add(ProductImageSaveError);
+		verify(validMess).add(ProductImageSaveError);
 	}
 	
 	@Test
@@ -94,7 +94,7 @@ public class ProductUploadControllerBeanTest {
 		controller.init();
 		
 		assertThat(model.getRoot().getData(), is("Rootz"));
-		verify(this.treeBuilder, times(2)).buildNode(anyList(), Mockito.any(ProductCategoryAggregate.class));;
+		verify(treeBuilder, times(2)).buildNode(anyList(), Mockito.any(ProductCategoryAggregate.class));;
 	}
 
 	private ProductCategoryAggregate buildProdCatAggregate() {
