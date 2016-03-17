@@ -37,6 +37,19 @@ public class ProductUploadControllerBeanTest {
 	@Mock private ModelValidationMessages validMess;
 	@Mock private ProductCoordinator coordinator;
 
+	private int i;
+	
+	public int getI() {
+		return i;
+	}
+	public void setI(int i) {
+		this.i = i;
+	}
+
+	private static <T> T anyInstance(Class<T> c) {
+		return org.mockito.Matchers.any(c);
+	}
+	
 	@Test
 	public void save_WithInvalidCategoryValidation_ReturnsValidaionMessageAndReturnsToSamePage() {
 		
@@ -51,12 +64,12 @@ public class ProductUploadControllerBeanTest {
 	
 	@Test
 	public void save_WithCoordinatorException_ReturnsValidationMessageAndReturnsToSamePage() throws IOException, CommonCheckedException {
-		
+				
 		ProductModel model = new ProductModel() {{
 			setNewCategory("Yollo");
 		}};
 		
-		doThrow(new CommonCheckedException(new Exception())).when(this.coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model), eq(null));
+		doThrow(new CommonCheckedException(new Exception())).when(coordinator).saveNewProduct(Mockito.any(ProductCategory.class), eq(model), eq(null));
 		
 		ProductUploadControllerBean controller = new ProductUploadControllerBean(container, prodDAO, prodCatDAO, treeBuilder, validMess, model, coordinator);
 		String result = controller.save();
@@ -85,8 +98,8 @@ public class ProductUploadControllerBeanTest {
 	@SuppressWarnings("unchecked")
 	public void init_ConstructsTreeProperly() {
 		
-		when(this.treeBuilder.build()).thenReturn(new DefaultTreeNode("Rootz", null));
-		when(this.prodCatDAO.getTopLevelInfo()).thenReturn(asList(buildProdCatAggregate(), buildProdCatAggregate()));
+		when(treeBuilder.build()).thenReturn(new DefaultTreeNode("Rootz", null));
+		when(prodCatDAO.getTopLevelInfo()).thenReturn(asList(buildProdCatAggregate(), buildProdCatAggregate()));
 		
 		ProductModel model = new ProductModel();
 		
@@ -94,11 +107,10 @@ public class ProductUploadControllerBeanTest {
 		controller.init();
 		
 		assertThat(model.getRoot().getData(), is("Rootz"));
-		verify(treeBuilder, times(2)).buildNode(anyList(), Mockito.any(ProductCategoryAggregate.class));;
+		verify(treeBuilder, times(2)).buildNode(anyList(), anyInstance(ProductCategoryAggregate.class));
 	}
 
 	private ProductCategoryAggregate buildProdCatAggregate() {
-		
 		return new ProductCategoryAggregate(UUID.randomUUID(), "catName", (long)0);
 	}
 }
