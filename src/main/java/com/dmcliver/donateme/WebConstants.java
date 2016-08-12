@@ -2,8 +2,6 @@ package com.dmcliver.donateme;
 
 import static java.util.UUID.randomUUID;
 
-import com.dmcliver.donateme.integration.tests.ProductCoordinatorTest;
-
 public class WebConstants {
 
 	/**
